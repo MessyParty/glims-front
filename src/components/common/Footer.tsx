@@ -1,13 +1,11 @@
-// import { ERROR_PAGE_REGEX } from "@/constants/regex";
+import { ERROR_PAGE_REGEX } from "@/constants/regex";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
 const Footer = () => {
   const router = useRouter();
 
-  /* TODO
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
-  */
   return (
     <Container>
       <p>Copyright 2023 by glims. All rights reserved.</p>
