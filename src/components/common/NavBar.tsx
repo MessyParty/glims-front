@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
-// import { ERROR_PAGE_REGEX } from "@/constants/regex";
+import { ERROR_PAGE_REGEX } from "@/constants/regex";
 
 const NavBar = () => {
   const router = useRouter();
@@ -13,9 +13,8 @@ const NavBar = () => {
   const moveToMyPage = () => {
     router.push("/mypage");
   };
-  /* TODO
+
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
-  */
   return (
     <>
       <LogoWrapper>
@@ -71,6 +70,7 @@ const Nav = styled.nav`
   font-size: 18px;
   font-weight: 500;
   margin: 0 auto;
+
   & a {
     margin: 0 1rem;
   }
