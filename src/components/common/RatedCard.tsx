@@ -52,6 +52,7 @@ const Wrapper = styled(CardContent)`
 const PerfumeBox = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #000;
   margin: 2rem 1.5rem;
 
@@ -66,7 +67,7 @@ const PerfumeBox = styled.div`
     }
   }
 
-  & .score {
+  & .score-text {
     width: 66px;
     height: 66px;
     background-color: #000;
