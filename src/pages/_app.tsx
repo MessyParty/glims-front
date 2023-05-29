@@ -10,16 +10,10 @@ import { RecoilRoot } from "recoil";
 import { CookiesProvider } from "react-cookie";
 import { Global } from "@emotion/react";
 
-import styled from "@emotion/styled";
-
-import axios from "axios";
 import NavBar from "@/components/common/NavBar";
 import Footer from "@/components/common/Footer";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
-
 export default function App({ Component, pageProps }: AppProps) {
-  // ssr 적용시를 위한 useState
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -33,20 +27,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <RecoilRoot>
           <CookiesProvider>
             <Global styles={reset} />
-            <Container>
-              <NavBar />
-              <Component {...pageProps} />
-              <Footer />
-            </Container>
+            <NavBar />
+            <Component {...pageProps} />
+            <Footer />
           </CookiesProvider>
         </RecoilRoot>
       </Hydrate>
     </QueryClientProvider>
   );
 }
-
-const Container = styled.div`
-  max-width: 1180px;
-  height: 100vh;
-  margin: 0 auto;
-`;
