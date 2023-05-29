@@ -9,15 +9,15 @@ const Footer = () => {
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
   */
   return (
-    <FooterContainer>
+    <Container>
       <p>Copyright 2023 by glims. All rights reserved.</p>
-    </FooterContainer>
+    </Container>
   );
 };
 
 export default Footer;
 
-const FooterContainer = styled.footer`
+const Container = styled.footer`
   text-align: center;
   border-top: 1px solid #000;
 
