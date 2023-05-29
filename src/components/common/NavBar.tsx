@@ -18,7 +18,7 @@ const NavBar = () => {
   */
   return (
     <>
-      <LogoContainer>
+      <LogoWrapper>
         <Link href="/">
           <Image
             src="./glims-logo.svg"
@@ -27,7 +27,7 @@ const NavBar = () => {
             height="88"
           />
         </Link>
-      </LogoContainer>
+      </LogoWrapper>
       <NavContainer>
         <Nav>
           <Link href="/about">About</Link>
@@ -48,34 +48,34 @@ const NavBar = () => {
   );
 };
 
-const LogoContainer = styled.div`
+const LogoWrapper = styled.div`
   text-align: center;
   margin: 2rem 0;
 `;
 
 const NavContainer = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   padding-bottom: 1rem;
   border-bottom: 1px solid #000;
 `;
 
 const Nav = styled.nav`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   font-size: 18px;
   font-weight: 500;
   margin: 0 auto;
-  padding-left: 5rem;
-  flex-grow: 1;
   & a {
     margin: 0 1rem;
   }
 `;
 const Utils = styled.div`
-  flex-shrink: 0;
-
   & button {
     margin: 0 10px;
   }
