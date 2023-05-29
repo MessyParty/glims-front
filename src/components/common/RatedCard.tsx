@@ -56,14 +56,14 @@ const PerfumeBox = styled.div`
   border-bottom: 1px solid #000;
   margin: 2rem 1.5rem;
 
-  .perfume-info {
+  & .perfume-info {
     &:first-of-type {
       font-size: 21px;
       font-weight: bold;
     }
 
     &:nth-of-type(2) {
-      font-size: 18;
+      font-size: 18px;
     }
   }
 
