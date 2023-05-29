@@ -1,7 +1,4 @@
-import "@/styles/globals.css";
 import reset from "@/styles/reset";
-import theme from "@/styles/theme";
-
 import { useState } from "react";
 import type { AppProps } from "next/app";
 import {
@@ -11,7 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { RecoilRoot } from "recoil";
 import { CookiesProvider } from "react-cookie";
-import { Global, ThemeProvider } from "@emotion/react";
+import { Global } from "@emotion/react";
 
 import styled from "@emotion/styled";
 
@@ -35,14 +32,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState}>
         <RecoilRoot>
           <CookiesProvider>
-            <ThemeProvider theme={theme}>
-              <Global styles={reset} />
-              <Container>
-                <NavBar />
-                <Component {...pageProps} />
-                <Footer />
-              </Container>
-            </ThemeProvider>
+            <Global styles={reset} />
+            <Container>
+              <NavBar />
+              <Component {...pageProps} />
+              <Footer />
+            </Container>
           </CookiesProvider>
         </RecoilRoot>
       </Hydrate>
