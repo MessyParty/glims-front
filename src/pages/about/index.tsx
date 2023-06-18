@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import { startTransition } from "react";
 
 const About = () => {
   return (
