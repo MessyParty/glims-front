@@ -6,6 +6,9 @@ const theme = createTheme({
       main: "#000",
     },
   },
+  typography: {
+    fontFamily: "Pretendard-Regular, san-serif",
+  },
 });
 
 export default theme;
