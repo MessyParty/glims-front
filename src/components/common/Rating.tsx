@@ -1,17 +1,22 @@
 import styled from "@emotion/styled";
-import { Rating as MuiRating } from "@mui/material";
+import { Rating as MuiRating, styled as muiStyled } from "@mui/material";
 import PerfumeFull from "./CustomIcon/PerfumeFull";
 import Perfume from "./CustomIcon/Perfume";
 
-const Rating = () => {
+interface RatingProps {
+  score: number;
+  fontSize: string;
+}
+
+const Rating = ({ score, fontSize }: RatingProps) => {
   return (
     <PerfumeRating
       name="perfume"
-      value={2.5}
+      value={score}
       defaultValue={0}
       precision={0.5}
-      icon={<PerfumeFull fontSize="inherit" />}
-      emptyIcon={<Perfume fontSize="inherit" />}
+      icon={<PerfumeFull style={{ fontSize }} />}
+      emptyIcon={<Perfume style={{ fontSize }} />}
       readOnly
     />
   );
@@ -20,5 +25,5 @@ const Rating = () => {
 export default Rating;
 
 const PerfumeRating = styled(MuiRating)`
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 `;

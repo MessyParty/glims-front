@@ -4,7 +4,7 @@ import { Rating } from "@mui/material";
 import PerfumeFull from "./CustomIcon/PerfumeFull";
 import Perfume from "./CustomIcon/Perfume";
 
-const EditAbleRating = () => {
+const EditAbleRating = ({ fontSize }: { fontSize: number }) => {
   const [rating, setRating] = useState<null | number>(0);
 
   return (
@@ -14,10 +14,10 @@ const EditAbleRating = () => {
       onChange={(event, newValue) => {
         setRating(newValue);
       }}
-      defaultValue={2}
+      defaultValue={0}
       precision={0.5}
-      icon={<PerfumeFull fontSize="inherit" />}
-      emptyIcon={<Perfume fontSize="inherit" />}
+      icon={<PerfumeFull style={{ fontSize }} />}
+      emptyIcon={<Perfume style={{ fontSize }} />}
     />
   );
 };
