@@ -6,16 +6,37 @@ import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { ERROR_PAGE_REGEX } from "@/constants/regex";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { loginState } from "@/recoil/login";
 import { LoginOutlined, LogoutOutlined } from "@mui/icons-material";
+import { logout } from "@/apis/auth";
+import { removeCookie } from "@/utils/cookie";
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "@/constants/auth";
+import { MODAL_KEYS } from "@/constants/modalKeys";
+import LoginModalContent from "@/components/view/main/LoginModalContent";
+import Modal from "@/components/common/Modal";
+import useModal from "@/hooks/useModal";
 
 const NavBar = () => {
   const router = useRouter();
-  const isLogined = useRecoilValue(loginState);
+  const loginModal = useModal(MODAL_KEYS.login);
+  const [isLogined, setLoginState] = useRecoilState(loginState);
 
   const moveToMyPage = () => {
     router.push("/mypage");
+  };
+
+  const logoutUser = async () => {
+    try {
+      await logout();
+      removeCookie(ACCESS_TOKEN_COOKIE);
+      removeCookie(REFRESH_TOKEN_COOKIE);
+      setLoginState(false);
+      await router.replace("/");
+    } catch (e) {
+      alert("로그아웃에 실패했습니다.");
+      await router.push("/");
+    }
   };
 
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
@@ -51,17 +72,30 @@ const NavBar = () => {
               >
                 <PersonOutlineIcon />
               </IconButton>
-              <IconButton color="primary" aria-label="logout">
+              <IconButton
+                color="primary"
+                aria-label="logout"
+                onClick={logoutUser}
+              >
                 <LogoutOutlined />
               </IconButton>
             </>
           ) : (
-            <IconButton color="primary" aria-label="login">
+            <IconButton
+              color="primary"
+              aria-label="login"
+              onClick={loginModal.openModal}
+            >
               <LoginOutlined />
             </IconButton>
           )}
         </Utils>
       </NavContainer>
+      <Modal
+        modalKey={MODAL_KEYS.login}
+        modalContent={<LoginModalContent />}
+        open={loginModal.isOpen}
+      />
     </>
   );
 };

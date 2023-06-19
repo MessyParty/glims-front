@@ -12,3 +12,7 @@ export const getLoginTokens = async (code: string): Promise<LoginResponse> => {
   });
   return loginData;
 };
+
+export const logout = async () => {
+  return await api.post("/api/v1/logout");
+};
