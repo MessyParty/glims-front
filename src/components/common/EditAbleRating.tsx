@@ -4,7 +4,7 @@ import { Rating } from "@mui/material";
 import PerfumeFull from "./CustomIcon/PerfumeFull";
 import Perfume from "./CustomIcon/Perfume";
 
-const EditAbleRating = () => {
+const EditableRating = () => {
   const [rating, setRating] = useState<null | number>(0);
 
   return (
@@ -22,7 +22,7 @@ const EditAbleRating = () => {
   );
 };
 
-export default EditAbleRating;
+export default EditableRating;
 
 const PerfumeRating = styled(Rating)`
   margin: 1rem 0;
