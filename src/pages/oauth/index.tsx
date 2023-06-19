@@ -2,16 +2,42 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import styled from "@emotion/styled";
 import { Box, CircularProgress } from "@mui/material";
+import { getLoginTokens } from "@/apis/auth";
+import { setCookie } from "@/utils/cookie";
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "@/constants/auth";
+import { useSetRecoilState } from "recoil";
+import { loginState } from "@/recoil/login";
 
 const Oauth = () => {
   const router = useRouter();
+  const setLoginState = useSetRecoilState(loginState);
   const { code } = router.query as { code: string };
 
-  useEffect(() => {
-    if (!router.isReady) return;
-  }, [router.isReady]);
+  const login = async (code: string) => {
+    try {
+      const response = await getLoginTokens(code);
+      setCookie(ACCESS_TOKEN_COOKIE, response.accessToken, {
+        path: "/",
+        expires: new Date(response.accessTokenExpireTime),
+      });
+      setCookie(REFRESH_TOKEN_COOKIE, response.refreshToken, {
+        path: "/",
+        expires: new Date(response.refreshTokenExpireTime),
+      });
+      setLoginState(true);
+      await router.replace("/");
+    } catch (e) {
+      alert("로그인에 실패했습니다.");
+      await router.replace("/");
+    }
+  };
 
-  // TODO useLoginQuery(code ?? "");
+  useEffect(() => {
+    if (router.isReady) {
+      login(code);
+    }
+    return;
+  }, [router.isReady]);
 
   return (
     <Container>
