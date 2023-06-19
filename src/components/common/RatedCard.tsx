@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
 import { CardContent, CardMedia, Card, CardProps } from "@mui/material";
+import Link from "next/link";
 
 interface RatedCardProps extends CardProps {
   brandName: string;
   perfumeName: string;
   score: number;
   imgSrc?: string;
+  uuid: string;
 }
 
 const RatedCard = ({
@@ -13,20 +15,28 @@ const RatedCard = ({
   perfumeName,
   score,
   imgSrc,
+  uuid,
 }: RatedCardProps) => {
   return (
     <Container>
       <Wrapper>
-        <div className="perfume-img">
-          <CardMedia component="img" image={imgSrc} alt="perfume image" />
-        </div>
-        <PerfumeBox>
-          <div className="info-text">
-            <p>{brandName}</p>
-            <p>{perfumeName}</p>
+        <Link href={`/perfumes/${uuid}`}>
+          <div className="perfume-img">
+            <CardMedia
+              component="img"
+              image={imgSrc}
+              alt="perfume image"
+              style={{ maxHeight: "25rem", objectFit: "contain" }}
+            />
           </div>
-          <div className="score-text">{score}</div>
-        </PerfumeBox>
+          <PerfumeBox>
+            <div className="info-text">
+              <p>{brandName}</p>
+              <p>{perfumeName}</p>
+            </div>
+            <div className="score-text">{score}</div>
+          </PerfumeBox>
+        </Link>
       </Wrapper>
     </Container>
   );
@@ -35,17 +45,20 @@ const RatedCard = ({
 export default RatedCard;
 
 const Container = styled(Card)`
-  width: 409px;
+  max-width: 781px;
+  min-width: 384px;
+  height: 540px;
   border-radius: 0;
   border: 1px solid #000;
 `;
 
 const Wrapper = styled(CardContent)`
-  padding: 0;
+  padding-top: 1rem;
   & > .perfume-img img {
     width: 100%;
     height: 100%;
-    min-height: 405px;
+    max-height: 405px;
+    object-fit: contain;
   }
 `;
 
