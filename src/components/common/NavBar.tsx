@@ -6,9 +6,13 @@ import { IconButton } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { ERROR_PAGE_REGEX } from "@/constants/regex";
+import { useRecoilValue } from "recoil";
+import { loginState } from "@/recoil/login";
+import { LoginOutlined, LogoutOutlined } from "@mui/icons-material";
 
 const NavBar = () => {
   const router = useRouter();
+  const isLogined = useRecoilValue(loginState);
 
   const moveToMyPage = () => {
     router.push("/mypage");
@@ -38,9 +42,24 @@ const NavBar = () => {
           <IconButton color="primary" aria-label="search">
             <SearchIcon />
           </IconButton>
-          <IconButton color="primary" aria-label="user" onClick={moveToMyPage}>
-            <PersonOutlineIcon />
-          </IconButton>
+          {isLogined ? (
+            <>
+              <IconButton
+                color="primary"
+                aria-label="user"
+                onClick={moveToMyPage}
+              >
+                <PersonOutlineIcon />
+              </IconButton>
+              <IconButton color="primary" aria-label="logout">
+                <LogoutOutlined />
+              </IconButton>
+            </>
+          ) : (
+            <IconButton color="primary" aria-label="login">
+              <LoginOutlined />
+            </IconButton>
+          )}
         </Utils>
       </NavContainer>
     </>
