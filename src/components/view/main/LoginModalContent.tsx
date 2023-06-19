@@ -2,6 +2,7 @@ import { KAKAO_AUTH_URL } from "@/constants/auth";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { Button } from "@mui/material";
+import KakaoLogin from "@/components/common/CustomIcon/KakaoLogin";
 
 const LoginModalContent = () => {
   const login = () => {
@@ -12,7 +13,7 @@ const LoginModalContent = () => {
     <Container>
       <Image src="/glims-logo.svg" alt="Glims Logo" width={96} height={54} />
       <p>로그인 후 나만의 향수를 찾아보세요!</p>
-      <KakaoLoginButton startIcon="#" onClick={login}>
+      <KakaoLoginButton startIcon={<KakaoLogin />} onClick={login}>
         카카오로 로그인하기
       </KakaoLoginButton>
     </Container>
