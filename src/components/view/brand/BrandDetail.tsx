@@ -7,11 +7,7 @@ import TitleBox from "@/components/common/TitleBox";
 import RatedCard from "@/components/common/RatedCard";
 import { Perfume } from "@/apis/interfaces/perfume.interfece";
 
-export default function BrandDetail({
-  brandName,
-}: {
-  brandName: string;
-}): JSX.Element {
+const BrandDetail = ({ brandName }: { brandName: string }): JSX.Element => {
   const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfiniteScroll(brandName);
 
@@ -45,7 +41,9 @@ export default function BrandDetail({
       </div>
     </>
   );
-}
+};
+
+export default BrandDetail;
 
 const BrandBox = styled.div`
   display: grid;

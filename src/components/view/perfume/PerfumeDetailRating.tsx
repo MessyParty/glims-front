@@ -16,11 +16,11 @@ type DetailRatingProps = {
   iconSize?: string;
 };
 
-export default function DetailRating({
+const PerfumeDetailRating = ({
   scentRatings,
   longevityRatings,
   sillageRatings,
-}: DetailRatingProps) {
+}: DetailRatingProps) => {
   const RatingList: RatingListType[] = [
     {
       name: "scentRatings",
@@ -55,7 +55,9 @@ export default function DetailRating({
       ))}
     </Wrapper>
   );
-}
+};
+
+export default PerfumeDetailRating;
 
 const Wrapper = styled.div`
   display: flex;

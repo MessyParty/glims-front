@@ -9,7 +9,7 @@ interface BrandListProps {
   }[];
 }
 
-export default function BrandList({ filteredBrands }: BrandListProps) {
+const BrandList = ({ filteredBrands }: BrandListProps) => {
   return (
     <Container>
       {filteredBrands?.map(({ brandId, brandNameKor, brandNameEng }) => (
@@ -27,7 +27,8 @@ export default function BrandList({ filteredBrands }: BrandListProps) {
       ))}
     </Container>
   );
-}
+};
+export default BrandList;
 
 const Container = styled.div`
   display: grid;
