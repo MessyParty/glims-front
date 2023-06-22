@@ -1,14 +1,15 @@
-import axios from "axios";
 import {
   Review,
   ReviewListType,
   ReviewParameterType,
+  ReveiwResponse,
 } from "./interfaces/review.interface";
+import api from ".";
 
 export const getAllReview = async (
   params: ReviewParameterType,
 ): Promise<ReviewListType[]> => {
-  const { data } = await axios.get<ReviewListType[]>(
+  const { data } = await api.get<ReviewListType[]>(
     `https://dev.glims.store/api/v1/reviews`,
     {
       params,
@@ -18,9 +19,30 @@ export const getAllReview = async (
 };
 
 export const getReview = async (id: string): Promise<Review> => {
-  const { data } = await axios.get<Review>(
+  const { data } = await api.get<Review>(
     `https://dev.glims.store/api/v1/reviews/${id}`,
   );
 
+  return data;
+};
+
+export const deleteReview = async (id: string) => {
+  await api.delete(`https://dev.glims.store/api/v1/reviews/${id}`);
+};
+
+export const createReview = async (payload: ReveiwResponse) => {
+  const { data } = await api.post(`https://dev.glims.store/api/v1/reviews`, {
+    ...payload,
+  });
+  return data;
+};
+
+export const updateReview = async (id: string, payload: ReveiwResponse) => {
+  const { data } = await api.patch(
+    `https://dev.glims.store/api/v1/reviews/${id}`,
+    {
+      ...payload,
+    },
+  );
   return data;
 };
