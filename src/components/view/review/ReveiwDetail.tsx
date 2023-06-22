@@ -1,21 +1,23 @@
 import React from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
-import { Button, Typography } from "@mui/material";
-import { CardMedia, CardProps } from "@mui/material";
+import { Button } from "@mui/material";
 import { MODAL_KEYS } from "@/constants/modalKeys";
 import useModal from "@/hooks/useModal";
 import QuoteLeft from "@/components/common/CustomIcon/QuoteLeft";
 import QuoteRight from "@/components/common/CustomIcon/QuoteRight";
-import Rating from "@/components/common/Rating";
+import ReviewDetailRating from "./ReviewDetailRating";
+import PerfumeImage from "@/components/common/PerfumeImage";
+import { useDeleteReview } from "@/hooks/queries/useReivew";
 
-interface ReviewDetailProps extends CardProps {
+interface ReviewDetailProps {
   title: string;
   author: string;
   score: number;
   longevityRatings: number;
+  scentRatings: number;
   sillageRatings: number;
-  tags: string[];
+  overallRatings: number;
   description?: string;
   photoUrl?: string[];
   perfumeName: string;
@@ -24,13 +26,14 @@ interface ReviewDetailProps extends CardProps {
   id: string;
 }
 
-export default function ReviewDetail({
+const ReviewDetail = ({
   title,
   author,
   score,
+  scentRatings,
   sillageRatings,
   longevityRatings,
-  tags,
+  overallRatings,
   description,
   photoUrl,
   perfumeName,
@@ -38,10 +41,15 @@ export default function ReviewDetail({
   createAt,
   id,
   ...props
-}: ReviewDetailProps) {
+}: ReviewDetailProps) => {
   const router = useRouter();
 
-  const handleDelete = (id: string) => {};
+  const { mutate } = useDeleteReview();
+
+  const handleDelete = (id: string) => {
+    alert("리뷰를 삭제하시겠습니까?");
+    mutate(id);
+  };
 
   const handleUpdateReview = async () => {};
 
@@ -58,173 +66,92 @@ export default function ReviewDetail({
     <>
       <Container {...props}>
         <ReviewTopBox>
-          <Typography fontSize={30}>{perfumeName}</Typography>
-          <Typography fontSize={23}>{perfumeBrand}</Typography>
+          <p className="perfume-text">{perfumeName}</p>
+          <p className="brand-text">{perfumeBrand}</p>
         </ReviewTopBox>
-
         <ReviewTitleBox>
-          <Typography fontSize={20}>{title}</Typography>
+          <p className="review-title-text">{title}</p>
           <div className="review-info">
-            <Typography fontSize={18}>{formattedDate}</Typography>
-            <Typography fontSize={18}>by {author}</Typography>
+            <p className="date">{formattedDate}</p>
+            <p className="author">by {author}</p>
           </div>
         </ReviewTitleBox>
         <Quote>
           <QuoteLeft />
-          <Typography
-            variant="h5"
-            component="blockquote"
-            fontSize="28px"
-            margin="0 12px"
-            paddingTop="20px"
-          >
-            {title}
-          </Typography>
+          <p className="quote-title">{title}</p>
           <QuoteRight />
         </Quote>
-        <div>
-          {photoUrl?.map((photo, index) => (
-            <CardMedia
-              component="img"
-              src={photo}
-              alt="review image"
-              width={400}
-              height={400}
-              style={{ minWidth: "400px", minHeight: "400px" }}
-              key={index}
-            />
-          ))}
+        <div className="img-box">
+          <PerfumeImage width={500} height={500} imgSrc={photoUrl} />
         </div>
-        <ReviewContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={21}>
-              AVERAGE
-            </Typography>
-            <Typography fontWeight="bold" fontSize={21}>
-              SCORE
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewContent>
-
-        <Typography fontWeight="bold" fontSize={25}>
-          SCORE
-        </Typography>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              본연의 향
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              SCENT
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              지속력
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              LONGEVITY
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              잔향
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              SILLAGE
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-
+        <ReviewDetailRating
+          overallRatings={overallRatings}
+          scentRatings={scentRatings}
+          longevityRatings={longevityRatings}
+          sillageRatings={sillageRatings}
+        />
         <ReviewDescription>
-          <Typography fontSize={20} fontWeight="light">
-            {description}
-          </Typography>
+          <p>{description}</p>
         </ReviewDescription>
         <div className="button-box">
-          <Button
-            variant="outlined"
-            style={{
-              borderRadius: 0,
-              fontSize: "17px",
-              padding: "10px 40px",
-              margin: "0 1rem",
-            }}
-            onClick={() => handleUpdateReview()}
-          >
+          <Button variant="outlined" onClick={() => handleUpdateReview()}>
             수정하기
           </Button>
-          <Button
-            variant="outlined"
-            style={{
-              borderRadius: 0,
-              fontSize: "17px",
-              padding: "10px 40px",
-              margin: "0 1rem",
-            }}
-            onClick={() => handleDelete}
-          >
+          <Button variant="outlined" onClick={() => handleDelete(id)}>
             삭제하기
           </Button>
         </div>
       </Container>
       <ListButton>
-        <Button
-          className="list-button"
-          variant="contained"
-          style={{
-            backgroundColor: "#000",
-            color: "#fff",
-            borderRadius: 0,
-            fontSize: "17px",
-            padding: "10px 40px",
-            margin: "0 1rem",
-          }}
-          onClick={moveToBack}
-        >
+        <Button variant="contained" onClick={moveToBack}>
           목록
         </Button>
       </ListButton>
     </>
   );
-}
+};
+
+export default ReviewDetail;
 
 const ReviewTopBox = styled.div`
   text-align: center;
-  margin: 1.5rem 0;
+  margin: 24px 0;
+  & .perfume-text {
+    font-size: 1.875rem;
+  }
+  & .brand-text {
+    font-size: 1.4375rem;
+  }
 `;
 
 const ReviewTitleBox = styled.div`
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid #000;
-  border-bottom: 1px solid #000;
-  padding: 1rem 0;
+  border-top: 0.0625rem solid #000;
+  border-bottom: 0.0625rem solid #000;
+  padding: 16px 0;
+
+  .review-title-text {
+    font-size: 1.25rem;
+  }
 
   & .review-info {
     display: flex;
     align-items: center;
+    font-size: 1.125rem;
 
     & p:nth-of-type(1) {
-      margin-right: 3rem;
+      margin-right: 48px;
       position: relative;
 
       &::after {
         display: block;
         content: "";
-        height: 18px;
-        border-right: 1px solid #000;
+        height: 1.125rem;
+        border-right: 0.0625rem solid #000;
         position: absolute;
         top: 50%;
-        right: -25px;
+        right: -1.5625rem;
         transform: translateY(-50%);
       }
     }
@@ -234,57 +161,58 @@ const ReviewTitleBox = styled.div`
 const Quote = styled.div`
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  margin: 32px 0;
+
+  .quote-title {
+    font-size: 1.75rem;
+    margin: 0 0.75rem;
+    padding-top: 1.25rem;
+  }
 
   & > svg {
-    min-width: 40px;
-    min-height: 40px;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
   }
-`;
-
-const ReviewRatingContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 40%;
-  margin: 0.5rem 0;
 `;
 
 const ReviewDescription = styled.div`
-  border-top: 1px solid #000;
-  padding: 1rem 0;
-  margin: 1.5rem 0;
-`;
-
-const ReviewContent = styled.div`
-  padding: 28px 0 28px 0;
-  border-bottom: 1px solid #4d4d4d;
-  margin: 1.5rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & > .rating-title {
-    display: inline-block;
-    padding-right: 22px;
-  }
-  &:first-of-type {
-    padding-top: 0;
-  }
-
-  &:last-of-type {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
+  width: 1000px;
+  border-top: 0.0625rem solid #000;
+  padding: 1.7rem 0;
+  margin: 3rem auto;
+  font-size: 1.25rem;
+  font-weight: lighter;
 `;
 
 const ListButton = styled.div`
   text-align: center;
-  margin: 1rem 0;
+  margin: 16px 0;
+  button {
+    background-color: #000;
+    color: #fff;
+    border-radius: 0;
+    font-size: 1.0625rem;
+    padding: 0.625rem 2.5rem;
+    margin: 0 16px;
+  }
 `;
-const Container = styled.div`
-  border-bottom: 1px solid #000;
-  padding: 1rem 0 3rem;
 
+const Container = styled.div`
+  border-bottom: 0.0625rem solid #000;
+  padding: 16px 0 48px;
+  .img-box {
+    display: flex;
+    justify-content: center;
+    margin: 1.8rem 0;
+  }
   & .button-box {
     text-align: center;
+
+    button {
+      border-radius: 0;
+      font-size: 1.0625rem;
+      padding: 0.625rem 2.5rem;
+      margin: 0 16px;
+    }
   }
 `;
