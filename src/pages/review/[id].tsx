@@ -4,10 +4,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { getReview } from "@/apis/review";
 import ReviewDetail from "@/components/view/review/ReveiwDetail";
-import useReview from "@/hooks/queries/useReivew";
-
-const DEFAULT_IMG =
-  "https://cdn.pixabay.com/photo/2018/01/10/13/47/essential-oil-3073901_960_720.jpg";
+import { useReview } from "@/hooks/queries/useReivew";
 
 const ReviewDetailPage = () => {
   const router = useRouter();
@@ -25,10 +22,11 @@ const ReviewDetailPage = () => {
           createAt={data.createdAt}
           description={data.body}
           longevityRatings={data.longevityRatings}
+          overallRatings={data.overallRatings}
+          scentRatings={data.scentRatings}
           sillageRatings={data.sillageRatings}
           score={data.overallRatings}
-          tags={[]}
-          photoUrl={data.photoUrls ?? DEFAULT_IMG}
+          photoUrl={data.photoUrls}
           id={data.uuid}
         />
       ) : (

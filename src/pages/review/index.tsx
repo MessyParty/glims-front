@@ -1,5 +1,5 @@
-import { getAllReview, getReview } from "@/apis/review";
-import useAllReview from "@/hooks/queries/useAllReview";
+import { getAllReview } from "@/apis/review";
+import { useAllReview } from "@/hooks/queries/useReivew";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import Link from "next/link";

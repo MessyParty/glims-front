@@ -1,7 +1,7 @@
 import { Perfume } from "@/apis/interfaces/perfume.interfece";
 import styled from "@emotion/styled";
 import React from "react";
-import DetailRating from "./PerfumeDetailRating";
+import PerfumeDetailRating from "./PerfumeDetailRating";
 import Rating from "@/components/common/Rating";
 interface PerfumeDetailProps {
   data: {
@@ -74,7 +74,7 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
         </div>
         <div className="perfume-score">
           <h1 className="title">Score</h1>
-          <DetailRating
+          <PerfumeDetailRating
             scentRatings={scentRatings}
             longevityRatings={longevityRatings}
             sillageRatings={sillageRatings}

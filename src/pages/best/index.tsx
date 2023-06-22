@@ -7,10 +7,7 @@ import useBestPerfume from "@/hooks/queries/useBestPerfume";
 import TitleBox from "@/components/common/TitleBox";
 import styled from "@emotion/styled";
 
-const DEFAULT_IMG =
-  "https://www.trndf.com/news/data/20190709/p1065591406141189_714_thum.jpg";
-
-export default function BestPage() {
+const BestPage = () => {
   const { data: bestData } = useBestPerfume(7);
 
   return (
@@ -25,7 +22,7 @@ export default function BestPage() {
                     brandName={brandName}
                     perfumeName={perfumeName}
                     score={overallRatings}
-                    imgSrc={photos[0].url ?? DEFAULT_IMG}
+                    imgSrc={photos[0].url}
                     uuid={uuid}
                   />
                 </React.Fragment>
@@ -35,7 +32,7 @@ export default function BestPage() {
       </BrandBox>
     </div>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
@@ -53,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
+export default BestPage;
 
 const BrandBox = styled.div`
   display: grid;
