@@ -1,4 +1,7 @@
-import { LoginResponse } from "@/apis/interfaces/auth.interface";
+import {
+  LoginResponse,
+  ProfileResponse,
+} from "@/apis/interfaces/auth.interface";
 import api from "@/apis/index";
 
 export const getLoginTokens = async (code: string): Promise<LoginResponse> => {
@@ -15,4 +18,9 @@ export const getLoginTokens = async (code: string): Promise<LoginResponse> => {
 
 export const logout = async () => {
   return await api.post("/api/v1/logout");
+};
+
+export const profile = async (): Promise<ProfileResponse> => {
+  const { data } = await api.get("/api/v1/users");
+  return data;
 };
