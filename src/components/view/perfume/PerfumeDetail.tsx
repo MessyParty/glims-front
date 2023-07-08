@@ -3,6 +3,10 @@ import styled from "@emotion/styled";
 import React from "react";
 import DetailRating from "./PerfumeDetailRating";
 import Rating from "@/components/common/Rating";
+import useModal from "@/hooks/useModal";
+import { MODAL_KEYS } from "@/constants/modalKeys";
+import Modal from "@/components/common/Modal";
+import ReveiwModal from "../review/ReveiwModal";
 interface PerfumeDetailProps {
   data: {
     brandName: string;
@@ -17,21 +21,27 @@ interface PerfumeDetailProps {
     photos: { url: string }[];
     notes: { id: number; korName: string; engName: string }[];
     introduction: string;
+    heartCnt: number;
+    createdAt: string;
   };
+  reviewData: any;
 }
 
 const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
   const {
     photos,
     brandName,
-    brandNameKor,
+    perfumeName,
     notes,
     scentRatings,
     longevityRatings,
     sillageRatings,
     overallRatings,
     introduction,
-  } = data as Perfume;
+    uuid,
+  } = data;
+
+  const reviewModal = useModal(MODAL_KEYS.review);
 
   return (
     <Container>
@@ -47,7 +57,7 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
         <PerfumeName>
           <div className="perfume-name-box">
             <p className="perfume-eng">{brandName}</p>
-            <p className="perfume-kor">{brandNameKor}</p>
+            <p className="perfume-kor">{perfumeName}</p>
           </div>
           <div className="perfume-intro">{introduction}</div>
           <div className="perfume-note">
@@ -88,6 +98,20 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
         </div>
       </PerfumeInfo>
       <BottomDecorationBar />
+      <button type="button" onClick={reviewModal.openModal}>
+        리뷰 남기기
+      </button>
+      <Modal
+        modalKey={MODAL_KEYS.review}
+        modalContent={
+          <ReveiwModal
+            brandName={brandName}
+            perfumeName={perfumeName}
+            perfumeUuid={uuid}
+          />
+        }
+        open={reviewModal.isOpen}
+      />
     </Container>
   );
 };
