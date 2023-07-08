@@ -29,6 +29,7 @@ export type ReviewFormType = {
 export type ReviewPostType = ReviewFormType & { perfumeUuid: string };
 
 export type ReviewParameterType = {
+  offset: number;
   limit: number;
   orderStandard: string;
   sortType: string;

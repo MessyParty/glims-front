@@ -5,3 +5,12 @@ export type LoginResponse = {
   refreshToken: string;
   refreshTokenExpireTime: string;
 };
+
+export type ProfileResponse = {
+  createdAt: string;
+  email: string;
+  nickname: string;
+  reviewCnt: number;
+  role: string;
+  userType: string;
+};

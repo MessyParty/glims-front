@@ -7,14 +7,15 @@ import {
 } from "./interfaces/review.interface";
 import api from ".";
 
+
 export const getAllReview = async (
-  params: ReviewParameterType,
+  params: ReviewParameterType
 ): Promise<ReviewListType[]> => {
   const { data } = await axios.get<ReviewListType[]>(
     `https://dev.glims.store/api/v1/reviews`,
     {
       params,
-    },
+    }
   );
   return data;
 };
@@ -22,10 +23,12 @@ export const getAllReview = async (
 export const getReview = async (id: string): Promise<Review> => {
   const { data } = await api.get<Review>(
     `https://dev.glims.store/api/v1/reviews/${id}`,
+
   );
 
   return data;
 };
+
 
 export const deleteReview = async (id: string) => {
   await api.delete(`https://dev.glims.store/api/v1/reviews/${id}`);
@@ -58,3 +61,13 @@ export const createReviewPhoto = async (uuid: string, body: FormData) => {
   );
   return data;
 };
+
+export const getMyReview = async (
+  params: ReviewParameterType
+): Promise<ReviewListType[]> => {
+  const { data } = await api.get(`/api/v1/reviews/myReviews`, {
+    params,
+  });
+  return data;
+};
+
