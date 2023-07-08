@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 import { Button, Typography } from "@mui/material";
@@ -8,6 +8,12 @@ import useModal from "@/hooks/useModal";
 import QuoteLeft from "@/components/common/CustomIcon/QuoteLeft";
 import QuoteRight from "@/components/common/CustomIcon/QuoteRight";
 import Rating from "@/components/common/Rating";
+import ReviewDetailRating from "./ReviewDetailRating";
+import PerfumeImage from "@/components/common/PerfumeImage";
+import { useDeleteReview, useReview } from "@/hooks/queries/useReivew";
+import { Review } from "@/apis/interfaces/review.interface";
+import Modal from "@/components/common/Modal";
+import ReviewModal from "./ReveiwModal";
 
 interface ReviewDetailProps extends CardProps {
   title: string;
@@ -15,7 +21,8 @@ interface ReviewDetailProps extends CardProps {
   score: number;
   longevityRatings: number;
   sillageRatings: number;
-  tags: string[];
+  overallRatings: number;
+  scentRatings: number;
   description?: string;
   photoUrl?: string[];
   perfumeName: string;
@@ -24,13 +31,14 @@ interface ReviewDetailProps extends CardProps {
   id: string;
 }
 
-export default function ReviewDetail({
+export const ReviewDetail = ({
   title,
   author,
   score,
   sillageRatings,
   longevityRatings,
-  tags,
+  overallRatings,
+  scentRatings,
   description,
   photoUrl,
   perfumeName,
@@ -38,12 +46,40 @@ export default function ReviewDetail({
   createAt,
   id,
   ...props
-}: ReviewDetailProps) {
+}: ReviewDetailProps) => {
+  const [reviewData, setReviewData] = useState<Review>({
+    perfumeBrandEng: "",
+    body: "",
+    createdAt: "",
+    heartCnt: 0,
+    longevityRatings: 0,
+    nickname: "",
+    overallRatings: 0,
+    perfumeBrand: "",
+    perfumeName: "",
+    photoUrls: [],
+    sillageRatings: 0,
+    title: "",
+    uuid: "",
+    scentRatings: 0,
+  });
+
   const router = useRouter();
+  const reviewModal = useModal(MODAL_KEYS.review);
 
-  const handleDelete = (id: string) => {};
+  const { data, isSuccess } = useReview(id as string);
+  const { mutate } = useDeleteReview();
 
-  const handleUpdateReview = async () => {};
+  const handleDelete = (id: string) => {
+    alert("리뷰를 삭제하시겠습니까?");
+    mutate(id);
+    router.back();
+  };
+
+  const handleUpdateReview = (data: React.SetStateAction<Review>) => {
+    reviewModal.openModal();
+    setReviewData(data);
+  };
 
   const moveToBack = () => {
     router.back();
@@ -56,126 +92,60 @@ export default function ReviewDetail({
 
   return (
     <>
-      <Container {...props}>
-        <ReviewTopBox>
-          <Typography fontSize={30}>{perfumeName}</Typography>
-          <Typography fontSize={23}>{perfumeBrand}</Typography>
-        </ReviewTopBox>
-
-        <ReviewTitleBox>
-          <Typography fontSize={20}>{title}</Typography>
-          <div className="review-info">
-            <Typography fontSize={18}>{formattedDate}</Typography>
-            <Typography fontSize={18}>by {author}</Typography>
+      {isSuccess && (
+        <Container {...props}>
+          <ReviewTopBox>
+            <p className="perfume-text">{perfumeName}</p>
+            <p className="brand-text">{perfumeBrand}</p>
+          </ReviewTopBox>
+          <ReviewTitleBox>
+            <p className="review-title-text">{title}</p>
+            <div className="review-info">
+              <p className="date">{formattedDate}</p>
+              <p className="author">by {author}</p>
+            </div>
+          </ReviewTitleBox>
+          <Quote>
+            <QuoteLeft />
+            <p className="quote-title">{title}</p>
+            <QuoteRight />
+          </Quote>
+          <div className="img-box">
+            <PerfumeImage width={500} height={500} imgSrc={photoUrl} />
           </div>
-        </ReviewTitleBox>
-        <Quote>
-          <QuoteLeft />
-          <Typography
-            variant="h5"
-            component="blockquote"
-            fontSize="28px"
-            margin="0 12px"
-            paddingTop="20px"
-          >
-            {title}
-          </Typography>
-          <QuoteRight />
-        </Quote>
-        <div>
-          {photoUrl?.map((photo, index) => (
-            <CardMedia
-              component="img"
-              src={photo}
-              alt="review image"
-              width={400}
-              height={400}
-              style={{ minWidth: "400px", minHeight: "400px" }}
-              key={index}
+          <ReviewDetailRating
+            overallRatings={overallRatings}
+            scentRatings={scentRatings}
+            longevityRatings={longevityRatings}
+            sillageRatings={sillageRatings}
+          />
+          <ReviewDescription>
+            <p>{description}</p>
+          </ReviewDescription>
+          <div className="button-box">
+            <Button variant="outlined" onClick={() => handleUpdateReview(data)}>
+              수정하기
+            </Button>
+            <Modal
+              modalKey={MODAL_KEYS.review}
+              open={reviewModal.isOpen}
+              modalContent={
+                <ReviewModal
+                  brandName={data.perfumeBrand}
+                  perfumeUuid={data.uuid}
+                  perfumeName={data.perfumeName}
+                  reviewData={reviewData}
+                />
+              }
+              fullWidth
+              maxWidth="lg"
             />
-          ))}
-        </div>
-        <ReviewContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={21}>
-              AVERAGE
-            </Typography>
-            <Typography fontWeight="bold" fontSize={21}>
-              SCORE
-            </Typography>
+            <Button variant="outlined" onClick={() => handleDelete(id)}>
+              삭제하기
+            </Button>
           </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewContent>
-
-        <Typography fontWeight="bold" fontSize={25}>
-          SCORE
-        </Typography>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              본연의 향
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              SCENT
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              지속력
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              LONGEVITY
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-        <ReviewRatingContent>
-          <div className="rating-title">
-            <Typography fontWeight="bold" fontSize={20}>
-              잔향
-            </Typography>
-            <Typography fontSize={18} color="#474747">
-              SILLAGE
-            </Typography>
-          </div>
-          <Rating fontSize="3rem" score={1.5} />
-        </ReviewRatingContent>
-
-        <ReviewDescription>
-          <Typography fontSize={20} fontWeight="light">
-            {description}
-          </Typography>
-        </ReviewDescription>
-        <div className="button-box">
-          <Button
-            variant="outlined"
-            style={{
-              borderRadius: 0,
-              fontSize: "17px",
-              padding: "10px 40px",
-              margin: "0 1rem",
-            }}
-            onClick={() => handleUpdateReview()}
-          >
-            수정하기
-          </Button>
-          <Button
-            variant="outlined"
-            style={{
-              borderRadius: 0,
-              fontSize: "17px",
-              padding: "10px 40px",
-              margin: "0 1rem",
-            }}
-            onClick={() => handleDelete}
-          >
-            삭제하기
-          </Button>
-        </div>
-      </Container>
+        </Container>
+      )}
       <ListButton>
         <Button
           className="list-button"
@@ -195,8 +165,9 @@ export default function ReviewDetail({
       </ListButton>
     </>
   );
-}
+};
 
+export default ReviewDetail;
 const ReviewTopBox = styled.div`
   text-align: center;
   margin: 1.5rem 0;
@@ -242,38 +213,10 @@ const Quote = styled.div`
   }
 `;
 
-const ReviewRatingContent = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 40%;
-  margin: 0.5rem 0;
-`;
-
 const ReviewDescription = styled.div`
   border-top: 1px solid #000;
   padding: 1rem 0;
   margin: 1.5rem 0;
-`;
-
-const ReviewContent = styled.div`
-  padding: 28px 0 28px 0;
-  border-bottom: 1px solid #4d4d4d;
-  margin: 1.5rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  & > .rating-title {
-    display: inline-block;
-    padding-right: 22px;
-  }
-  &:first-of-type {
-    padding-top: 0;
-  }
-
-  &:last-of-type {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
 `;
 
 const ListButton = styled.div`

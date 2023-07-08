@@ -29,6 +29,10 @@ const GlimsDialog = styled(Dialog)`
   & .MuiPaper-root {
     border-radius: 0;
   }
+
+  & .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    max-width: 1024px;
+  }
 `;
 
 const GlimsDialogContent = styled(DialogContent)`

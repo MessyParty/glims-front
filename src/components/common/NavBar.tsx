@@ -16,6 +16,44 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import LoginModalContent from "@/components/view/main/LoginModalContent";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
+import { getCookie } from "@/utils/cookie";
+import { useEffect, useState } from "react";
+
+interface AuthModuleProps {
+  loginModalCb: () => void;
+  logoutModalCb: () => void;
+}
+
+const AuthModule = ({ loginModalCb, logoutModalCb }: AuthModuleProps) => {
+  const router = useRouter();
+  const [logined, setLogined] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = getCookie(ACCESS_TOKEN_COOKIE);
+    // early return
+    if (!token) return;
+    setLogined(true);
+  }, []);
+
+  const mypageHandler = () => {
+    router.push("/mypage");
+  };
+
+  return logined ? (
+    <>
+      <IconButton color="primary" aria-label="user" onClick={mypageHandler}>
+        <PersonOutlineIcon />
+      </IconButton>
+      <IconButton color="primary" aria-label="logout" onClick={logoutModalCb}>
+        <LogoutOutlined />
+      </IconButton>
+    </>
+  ) : (
+    <IconButton color="primary" aria-label="login" onClick={loginModalCb}>
+      <LoginOutlined />
+    </IconButton>
+  );
+};
 
 const NavBar = () => {
   const router = useRouter();
@@ -37,6 +75,10 @@ const NavBar = () => {
       alert("로그아웃에 실패했습니다.");
       await router.push("/");
     }
+  };
+
+  const loginHandler = () => {
+    loginModal.openModal();
   };
 
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
@@ -63,32 +105,7 @@ const NavBar = () => {
           <IconButton color="primary" aria-label="search">
             <SearchIcon />
           </IconButton>
-          {isLogined ? (
-            <>
-              <IconButton
-                color="primary"
-                aria-label="user"
-                onClick={moveToMyPage}
-              >
-                <PersonOutlineIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="logout"
-                onClick={logoutUser}
-              >
-                <LogoutOutlined />
-              </IconButton>
-            </>
-          ) : (
-            <IconButton
-              color="primary"
-              aria-label="login"
-              onClick={loginModal.openModal}
-            >
-              <LoginOutlined />
-            </IconButton>
-          )}
+          <AuthModule loginModalCb={loginHandler} logoutModalCb={logoutUser} />
         </Utils>
       </NavContainer>
       <Modal

@@ -1,5 +1,4 @@
 export type Review = {
-  [x: string]: string;
   body: string;
   createdAt: string;
   heartCnt: number;
@@ -7,24 +6,25 @@ export type Review = {
   nickname: string;
   overallRatings: number;
   perfumeBrand: string;
+  perfumeBrandEng: string;
   perfumeName: string;
   photoUrls: string[];
   sillageRatings: number;
+  scentRatings: number;
   title: string;
-  tags?: string[];
   uuid: string;
+  perfumeUuid?: string;
 };
 
-export type ReviewFormType = Pick<
-  Review,
-  | "body"
-  | "longevityRatings"
-  | "overallRatings"
-  | "photoUrls"
-  | "sillageRatings"
-  | "title"
-  | "tags"
->;
+export type ReviewFormType = {
+  body: string;
+  longevityRatings: number;
+  overallRatings: number;
+  sillageRatings: number;
+  scentRatings: number;
+  title: string;
+  photoUrls: string[];
+};
 
 export type ReviewPostType = ReviewFormType & { perfumeUuid: string };
 
@@ -43,4 +43,15 @@ type ListType = {
   photoUrl: string[];
   overallRating: number;
 };
+
 export type ReviewListType = Omit<Review, "createdAt"> & ListType;
+
+export type ReveiwResponse = {
+  body: string;
+  longevityRatings: number;
+  overallRatings: number;
+  sillageRatings: number;
+  scentRatings: number;
+  title: string;
+  perfumeUuid: string;
+};
