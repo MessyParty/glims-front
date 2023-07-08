@@ -1,22 +1,36 @@
-import { useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { Rating } from "@mui/material";
 import PerfumeFull from "./CustomIcon/PerfumeFull";
 import Perfume from "./CustomIcon/Perfume";
 
+type EditableRatingProps = {
+  value: number;
+  onChange: (value: number) => void;
+  fontSize: string;
+  precision: number;
+};
 
-const EditAbleRating = ({ fontSize }: { fontSize: number }) => {
-  const [rating, setRating] = useState<null | number>(0);
+const EditableRating = ({
+  value,
+  onChange,
+  fontSize,
+  precision,
+}: EditableRatingProps) => {
+  const handleRatingChange = (
+    event: React.ChangeEvent<{}>,
+    newValue: number | null,
+  ) => {
+    if (newValue !== null) {
+      onChange(newValue);
+    }
+  };
 
   return (
     <PerfumeRating
-      name="perfume"
-      value={rating}
-      onChange={(event, newValue) => {
-        setRating(newValue);
-      }}
-      defaultValue={0}
-      precision={0.5}
+      value={value || 0}
+      onChange={handleRatingChange}
+      precision={precision}
       icon={<PerfumeFull style={{ fontSize }} />}
       emptyIcon={<Perfume style={{ fontSize }} />}
     />
