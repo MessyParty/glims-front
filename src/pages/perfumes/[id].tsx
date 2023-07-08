@@ -1,7 +1,5 @@
 import { Perfume } from "@/apis/interfaces/perfume.interfece";
 import { getPerfume } from "@/apis/perfume";
-import EditAbleRating from "@/components/common/EditAbleRating";
-import TitleBox from "@/components/common/TitleBox";
 import PerfumeDetail from "@/components/view/perfume/PerfumeDetail";
 import usePerfume from "@/hooks/queries/usePerfume";
 import { QueryClient, dehydrate } from "@tanstack/react-query";

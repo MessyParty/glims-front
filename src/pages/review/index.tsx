@@ -13,7 +13,10 @@ const ReviewPage = () => {
     <div>
       {isSuccess &&
         data?.content.map((item) => (
-          <Link href={`/review/${item.uuid}`}>{item.title}</Link>
+          <Link href={`/review/${item.uuid}`} key={item.uuid}>
+            {item.title}
+            {item.nickname}
+          </Link>
         ))}
     </div>
   );
