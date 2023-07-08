@@ -58,7 +58,7 @@ const BrandBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  & div:first-child {
+  & div:first-of-type {
     grid-column: span 2;
   }
   & div:last-child {
