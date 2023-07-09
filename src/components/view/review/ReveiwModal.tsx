@@ -114,7 +114,7 @@ const ReviewModal = ({
         sillageRatings: rating.sillageRatings,
         photoUrls: selectedFile,
       };
-      console.log(selectedFile);
+
       const formData = new FormData();
       formData.append("files", selectedFile);
 
