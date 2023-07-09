@@ -1,8 +1,12 @@
-export type Search = {
-  id: number;
-  brandName: string;
-  perfumeName: string;
-  imgSrc: string | undefined;
-  score: number;
-  uuid: string;
-};
+export interface Search {
+  content: {
+    photos: any;
+    overallRatings: number;
+    id: number;
+    brandName: string;
+    perfumeName: string;
+    imgSrc: string;
+    score: number;
+    uuid: string;
+  }[];
+}
