@@ -18,6 +18,7 @@ import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
 import { getCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
+import SearchModal from "../view/search/searchModal";
 
 interface AuthModuleProps {
   loginModalCb: () => void;
@@ -58,6 +59,7 @@ const AuthModule = ({ loginModalCb, logoutModalCb }: AuthModuleProps) => {
 const NavBar = () => {
   const router = useRouter();
   const loginModal = useModal(MODAL_KEYS.login);
+  const searchModal = useModal(MODAL_KEYS.search);
   const [isLogined, setLoginState] = useRecoilState(loginState);
 
   const moveToMyPage = () => {
@@ -80,6 +82,9 @@ const NavBar = () => {
   const loginHandler = () => {
     loginModal.openModal();
   };
+  const searchHandler = () => {
+    searchModal.openModal();
+  };
 
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
   return (
@@ -91,6 +96,7 @@ const NavBar = () => {
             alt="glims-logo"
             width="155"
             height="88"
+            priority
           />
         </Link>
       </LogoWrapper>
@@ -102,7 +108,11 @@ const NavBar = () => {
           <Link href="/review">Review</Link>
         </Nav>
         <Utils>
-          <IconButton color="primary" aria-label="search">
+          <IconButton
+            color="primary"
+            aria-label="search"
+            onClick={searchHandler}
+          >
             <SearchIcon />
           </IconButton>
           <AuthModule loginModalCb={loginHandler} logoutModalCb={logoutUser} />
@@ -112,6 +122,11 @@ const NavBar = () => {
         modalKey={MODAL_KEYS.login}
         modalContent={<LoginModalContent />}
         open={loginModal.isOpen}
+      />
+      <Modal
+        modalKey={MODAL_KEYS.search}
+        modalContent={<SearchModal />}
+        open={searchModal.isOpen}
       />
     </>
   );
