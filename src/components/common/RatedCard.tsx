@@ -54,10 +54,15 @@ const Container = styled(Card)`
 
 const Wrapper = styled(CardContent)`
   padding-top: 1rem;
+  & > a {
+    height: 498px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   & > .perfume-img img {
     width: 100%;
-    height: 100%;
-    max-height: 405px;
+    height: 4855px;
     object-fit: contain;
   }
 `;
@@ -67,7 +72,7 @@ const PerfumeBox = styled.div`
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #000;
-  margin: 2rem 1.5rem;
+  margin: 2rem 1.5rem 0;
 
   & .perfume-info {
     &:first-of-type {
