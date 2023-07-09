@@ -7,28 +7,25 @@ import {
 } from "./interfaces/review.interface";
 import api from ".";
 
-
 export const getAllReview = async (
-  params: ReviewParameterType
-): Promise<ReviewListType[]> => {
-  const { data } = await axios.get<ReviewListType[]>(
+  params: ReviewParameterType,
+): Promise<ReviewListType["content"]> => {
+  const { data } = await axios.get<ReviewListType>(
     `https://dev.glims.store/api/v1/reviews`,
     {
       params,
-    }
+    },
   );
-  return data;
+  return data.content;
 };
 
 export const getReview = async (id: string): Promise<Review> => {
   const { data } = await api.get<Review>(
     `https://dev.glims.store/api/v1/reviews/${id}`,
-
   );
 
   return data;
 };
-
 
 export const deleteReview = async (id: string) => {
   await api.delete(`https://dev.glims.store/api/v1/reviews/${id}`);
@@ -63,7 +60,7 @@ export const createReviewPhoto = async (uuid: string, body: FormData) => {
 };
 
 export const getMyReview = async (
-  params: ReviewParameterType
+  params: ReviewParameterType,
 ): Promise<ReviewListType[]> => {
   const { data } = await api.get(`/api/v1/reviews/myReviews`, {
     params,
@@ -71,3 +68,35 @@ export const getMyReview = async (
   return data;
 };
 
+export const getBestReview = async (num: number): Promise<Review[]> => {
+  const { data } = await api.get<Review[]>(
+    "https://dev.glims.store/api/v1/reviews/bestReviews",
+    {
+      params: {
+        amountOfBestReview: num,
+      },
+    },
+  );
+  return data;
+};
+
+export const getBestReviewByPerfume = async (
+  pid: string,
+): Promise<Review[]> => {
+  const { data } = await api.get<Review[]>(
+    `https://dev.glims.store/api/v1/reviews/${pid}/bestReviews`,
+  );
+  return data;
+};
+
+export const getPerfumeReview = async (pid: string): Promise<Review[]> => {
+  const { data } = await api.get<Review[]>(
+    "https://dev.glims.store/api/v1/reviews/perfumeReviews",
+    {
+      params: {
+        perfumeUuid: pid,
+      },
+    },
+  );
+  return data;
+};

@@ -44,7 +44,21 @@ type ListType = {
   overallRating: number;
 };
 
-export type ReviewListType = Omit<Review, "createdAt"> & ListType;
+export type ReviewListType = {
+  content: {
+    nickname: string;
+    heartCnt: number;
+    uuid: any;
+    body: string;
+    longevityRatings: number;
+    overallRatings: number;
+    sillageRatings: number;
+    scentRatings: number;
+    title: string;
+    photoUrls: string[];
+    createdAt: string;
+  }[];
+};
 
 export type ReveiwResponse = {
   body: string;
