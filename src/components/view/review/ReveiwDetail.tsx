@@ -12,6 +12,7 @@ import { useDeleteReview, useReview } from "@/hooks/queries/useReivew";
 import { Review } from "@/apis/interfaces/review.interface";
 import Modal from "@/components/common/Modal";
 import ReviewModal from "./ReveiwModal";
+import useFormatDate from "@/hooks/useFormatDate";
 
 interface ReviewDetailProps {
   title: string;
@@ -83,10 +84,7 @@ const ReviewDetail = ({
     router.back();
   };
 
-  const date = new Date(createAt);
-  const formattedDate = `${date.getFullYear()}.${(date.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")}.${date.getDate().toString().padStart(2, "0")}`;
+  const formattedDate = useFormatDate(createAt);
 
   return (
     <>
