@@ -5,11 +5,34 @@ import {
 } from "@mui/icons-material";
 import styled from "@emotion/styled";
 
-const PaginationBar = () => {
+interface PaginationBarProps {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  totalItems: number;
+  itemsPerPage: number;
+}
+
+const PaginationBar = ({
+  currentPage,
+  setCurrentPage,
+  totalItems,
+  itemsPerPage,
+}: PaginationBarProps) => {
+  const pageCount = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number,
+  ) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Stack spacing={2}>
       <Pagination
-        count={10}
+        count={pageCount}
+        page={currentPage}
+        onChange={handlePageChange}
         size="large"
         showFirstButton
         showLastButton

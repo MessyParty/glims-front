@@ -1,10 +1,7 @@
-import { Perfume } from "@/apis/interfaces/perfume.interfece";
-import styled from "@emotion/styled";
 import React from "react";
+import styled from "@emotion/styled";
 import DetailRating from "./PerfumeDetailRating";
 import Rating from "@/components/common/Rating";
-import useModal from "@/hooks/useModal";
-import { MODAL_KEYS } from "@/constants/modalKeys";
 import Modal from "@/components/common/Modal";
 import ReveiwModal from "../review/ReveiwModal";
 interface PerfumeDetailProps {
@@ -14,7 +11,6 @@ interface PerfumeDetailProps {
     longevityRatings: number;
     overallRatings: number;
     perfumeName: string;
-    reviewCnt: number;
     sillageRatings: number;
     scentRatings: number;
     uuid: string;
@@ -24,7 +20,6 @@ interface PerfumeDetailProps {
     heartCnt: number;
     createdAt: string;
   };
-  reviewData: any;
 }
 
 const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
@@ -40,8 +35,6 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
     introduction,
     uuid,
   } = data;
-
-  const reviewModal = useModal(MODAL_KEYS.review);
 
   return (
     <Container>
@@ -98,20 +91,6 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
         </div>
       </PerfumeInfo>
       <BottomDecorationBar />
-      <button type="button" onClick={reviewModal.openModal}>
-        리뷰 남기기
-      </button>
-      <Modal
-        modalKey={MODAL_KEYS.review}
-        modalContent={
-          <ReveiwModal
-            brandName={brandName}
-            perfumeName={perfumeName}
-            perfumeUuid={uuid}
-          />
-        }
-        open={reviewModal.isOpen}
-      />
     </Container>
   );
 };
@@ -120,6 +99,7 @@ export default PerfumeDetail;
 
 const Container = styled.div`
   margin: 2rem 0;
+  border-bottom: 1px solid #000;
 `;
 const PerfumeDescription = styled.div`
   display: grid;
@@ -129,8 +109,8 @@ const PerfumeDescription = styled.div`
   position: relative;
 
   .perfume-container {
-    width: 100%;
-    background-color: #fefeff;
+    width: 97%;
+    background-color: #f3f3f5;
     height: 35rem;
     overflow: hidden;
     border-bottom: 1px solid #000;

@@ -20,7 +20,8 @@ export type Perfume = {
   longevityRatings: number;
   overallRatings: number;
   perfumeName: string;
-  reviewCnt: number;
+  heartCnt: number;
+  createdAt: string;
   sillageRatings: number;
   scentRatings: number;
   uuid: string;

@@ -9,7 +9,7 @@ interface ReviewCardProps {
   author: string;
   score: number;
   description?: string;
-  imgSrc?: string;
+  imgSrc?: string[];
   likeCount: number;
   uuid: string;
 }
@@ -71,8 +71,10 @@ export default ReviewCard;
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: 46px;
   align-items: center;
+  border-bottom: 1px solid #000;
 `;
 
 const ContentWrapper = styled.div`

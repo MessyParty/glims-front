@@ -22,9 +22,11 @@ const BrandTitleBox = styled.div`
   margin: 3rem 0 5rem;
   border-top: 10px solid #000;
   border-bottom: 10px solid #000;
+  line-height: 1.5;
   & .title-text {
     font-size: 33px;
     font-weight: bold;
+    margin-bottom: 0.3rem;
   }
 
   & .subTitle-text {

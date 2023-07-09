@@ -27,6 +27,7 @@ const PerfumeImage = ({ imgSrc, width, height }: PerfumeImageProps) => {
           alt="Perfume Image"
           width={width}
           height={height}
+          style={{ objectFit: "cover" }}
         />
       )}
     </>
