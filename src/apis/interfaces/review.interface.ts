@@ -48,7 +48,7 @@ export type ReviewListType = {
   content: {
     nickname: string;
     heartCnt: number;
-    uuid: any;
+    uuid: string;
     body: string;
     longevityRatings: number;
     overallRatings: number;
