@@ -7,11 +7,20 @@ import Modal from "@/components/common/Modal";
 import NicknameUpdateModalContent from "@/components/view/mypage/NicknameUpdateModalContent";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
+import RatedCard from "@/components/common/RatedCard";
+import React, { useState } from "react";
+import PaginationBar from "@/components/common/PaginationBar";
 
 const MyPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const { data: profileData } = useProfile();
-  const { data: reviewData } = useMyReviews({});
+  const { data: reviewData, isSuccess } = useMyReviews({});
   const nicknameUpdateModal = useModal(MODAL_KEYS.nicknameUpdate);
+
+  const itemsPerPage = 6;
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const endIdx = startIdx + itemsPerPage;
+  const paginatedReviewData = reviewData?.slice(startIdx, endIdx);
 
   return (
     <>
@@ -26,21 +35,44 @@ const MyPage = () => {
           닉네임 수정
         </NicknameUpdateButton>
       </SummaryWrapper>
-
       <BestReviewWrapper>
-        {false ? (
+        {reviewData !== undefined && reviewData.length > 0 ? (
           <ReviewCard
-            title={"처음 분사했을 때의 느낌을 잊지 못해요."}
-            author={"glims007"}
-            likeCount={16}
-            score={3.5}
-            uuid={"1234"}
+            title={reviewData[0].title}
+            author={reviewData[0].nickname}
+            likeCount={reviewData[0].heartCnt}
+            score={reviewData[0].overallRatings}
+            uuid={reviewData[0].perfumeUuid}
           />
+        ) : (
+          <p>작성된 베스트 리뷰가 없습니다!</p>
+        )}
+      </BestReviewWrapper>
+      <ReviewListWrapper>
+        {reviewData !== undefined && reviewData.length > 0 ? (
+          <>
+            <div className="reviews">
+              {paginatedReviewData?.map((item) => (
+                <RatedCard
+                  brandName={item.perfumeBrand}
+                  perfumeName={item.perfumeName}
+                  score={item.overallRatings}
+                />
+              ))}
+            </div>
+            <div className="pagination-container">
+              <PaginationBar
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalItems={reviewData.length}
+                itemsPerPage={itemsPerPage}
+              />
+            </div>
+          </>
         ) : (
           <p>작성된 리뷰가 없습니다!</p>
         )}
-      </BestReviewWrapper>
-      <ReviewListWrapper></ReviewListWrapper>
+      </ReviewListWrapper>
       <Modal
         modalKey={MODAL_KEYS.nicknameUpdate}
         modalContent={<NicknameUpdateModalContent />}
@@ -57,7 +89,7 @@ const SummaryWrapper = styled.div`
   border-bottom: 1px solid #707070;
   text-align: center;
 
-  p {
+  & > p {
     text-align: center;
     font-size: 30px;
 
@@ -79,6 +111,31 @@ const NicknameUpdateButton = styled(Button)`
 
 const BestReviewWrapper = styled.div`
   border-bottom: 1px solid #707070;
+
+  & > p {
+    text-align: center;
+    font-size: 18px;
+    margin: 3rem 0;
+  }
 `;
 
-const ReviewListWrapper = styled.div``;
+const ReviewListWrapper = styled.div`
+  & > p {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 3rem;
+  }
+
+  & > .reviews {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    margin: 74px 0;
+  }
+
+  & .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+  }
+`;

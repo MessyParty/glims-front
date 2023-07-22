@@ -12,7 +12,7 @@ interface ReviewCardProps {
   description?: string;
   imgSrc?: string[];
   likeCount: number;
-  uuid: string;
+  uuid?: string;
 }
 
 const ReviewCard = ({
