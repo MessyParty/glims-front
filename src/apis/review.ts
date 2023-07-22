@@ -8,20 +8,20 @@ import {
 import api from ".";
 
 export const getAllReview = async (
-  params: ReviewParameterType,
+  params: ReviewParameterType
 ): Promise<ReviewListType["content"]> => {
   const { data } = await axios.get<ReviewListType>(
     `https://dev.glims.store/api/v1/reviews`,
     {
       params,
-    },
+    }
   );
   return data.content;
 };
 
 export const getReview = async (id: string): Promise<Review> => {
   const { data } = await api.get<Review>(
-    `https://dev.glims.store/api/v1/reviews/${id}`,
+    `https://dev.glims.store/api/v1/reviews/${id}`
   );
 
   return data;
@@ -43,7 +43,7 @@ export const updateReview = async (id: string, payload: ReveiwResponse) => {
     `https://dev.glims.store/api/v1/reviews/${id}`,
     {
       ...payload,
-    },
+    }
   );
   return data;
 };
@@ -54,18 +54,18 @@ export const createReviewPhoto = async (uuid: string, body: FormData) => {
     body,
     {
       headers: { "Content-Type": "multipart/form-data" },
-    },
+    }
   );
   return data;
 };
 
 export const getMyReview = async (
-  params: ReviewParameterType,
-): Promise<ReviewListType[]> => {
+  params: ReviewParameterType
+): Promise<Review[]> => {
   const { data } = await api.get(`/api/v1/reviews/myReviews`, {
     params,
   });
-  return data;
+  return data.content;
 };
 
 export const getBestReview = async (num: number): Promise<Review[]> => {
@@ -75,16 +75,16 @@ export const getBestReview = async (num: number): Promise<Review[]> => {
       params: {
         amountOfBestReview: num,
       },
-    },
+    }
   );
   return data;
 };
 
 export const getBestReviewByPerfume = async (
-  pid: string,
+  pid: string
 ): Promise<Review[]> => {
   const { data } = await api.get<Review[]>(
-    `https://dev.glims.store/api/v1/reviews/${pid}/bestReviews`,
+    `https://dev.glims.store/api/v1/reviews/${pid}/bestReviews`
   );
   return data;
 };
@@ -96,7 +96,7 @@ export const getPerfumeReview = async (pid: string): Promise<Review[]> => {
       params: {
         perfumeUuid: pid,
       },
-    },
+    }
   );
   return data;
 };
