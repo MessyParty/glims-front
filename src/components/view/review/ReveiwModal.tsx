@@ -103,7 +103,13 @@ const ReviewModal = ({
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    if (title && review && rating && perfumeUuid) {
+    if (
+      title.length < 15 &&
+      title.length > 10 &&
+      review.length > 10 &&
+      rating &&
+      perfumeUuid
+    ) {
       const data = {
         title,
         perfumeUuid,
@@ -120,10 +126,13 @@ const ReviewModal = ({
 
       if (!reviewId) {
         const result = await mutateAsync({ ...data });
-        await mutatePhoto({ id: result.uuid, photo: formData });
-      } else {
-        updateReviewMutation({ ...data });
+        if (!formData) {
+          await mutatePhoto({ id: result.uuid, photo: formData });
+        }
+        return;
       }
+      updateReviewMutation({ ...data });
+
       closeModal();
     } else {
       setError(true);
@@ -149,6 +158,12 @@ const ReviewModal = ({
           placeholder="당신의 한줄평을 남겨주세요"
         />
         {error && !title && <ErrorText>제목을 입력해주세요.</ErrorText>}
+        {error && title.length < 10 && (
+          <ErrorText>10글자 이상 입력해주세요.</ErrorText>
+        )}
+        {error && title.length > 15 && (
+          <ErrorText>15글자 이하로 입력해주세요.</ErrorText>
+        )}
       </div>
       <div className="reivew-body-box content">
         <label>Description</label>
@@ -160,6 +175,9 @@ const ReviewModal = ({
           placeholder="당신의 경험을 자세히 남겨주세요"
         />
         {error && !review && <ErrorText>리뷰를 입력해주세요.</ErrorText>}
+        {error && review.length < 10 && (
+          <ErrorText>10글자 이상 입력해주세요.</ErrorText>
+        )}
       </div>
       <ImageInput setSelectedFile={setSelectedFile} />
       <button type="submit" onClick={handleSubmit}>
