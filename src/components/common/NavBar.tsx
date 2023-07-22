@@ -16,10 +16,50 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import LoginModalContent from "@/components/view/main/LoginModalContent";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
+import { getCookie } from "@/utils/cookie";
+import { useEffect, useState } from "react";
+import SearchModal from "../view/search/searchModal";
+
+interface AuthModuleProps {
+  loginModalCb: () => void;
+  logoutModalCb: () => void;
+}
+
+const AuthModule = ({ loginModalCb, logoutModalCb }: AuthModuleProps) => {
+  const router = useRouter();
+  const [logined, setLogined] = useState<boolean>(false);
+
+  useEffect(() => {
+    const token = getCookie(ACCESS_TOKEN_COOKIE);
+    // early return
+    if (!token) return;
+    setLogined(true);
+  }, []);
+
+  const mypageHandler = () => {
+    router.push("/mypage");
+  };
+
+  return logined ? (
+    <>
+      <IconButton color="primary" aria-label="user" onClick={mypageHandler}>
+        <PersonOutlineIcon />
+      </IconButton>
+      <IconButton color="primary" aria-label="logout" onClick={logoutModalCb}>
+        <LogoutOutlined />
+      </IconButton>
+    </>
+  ) : (
+    <IconButton color="primary" aria-label="login" onClick={loginModalCb}>
+      <LoginOutlined />
+    </IconButton>
+  );
+};
 
 const NavBar = () => {
   const router = useRouter();
   const loginModal = useModal(MODAL_KEYS.login);
+  const searchModal = useModal(MODAL_KEYS.search);
   const [isLogined, setLoginState] = useRecoilState(loginState);
 
   const moveToMyPage = () => {
@@ -39,6 +79,13 @@ const NavBar = () => {
     }
   };
 
+  const loginHandler = () => {
+    loginModal.openModal();
+  };
+  const searchHandler = () => {
+    searchModal.openModal();
+  };
+
   if (ERROR_PAGE_REGEX.test(router.pathname)) return null;
   return (
     <>
@@ -49,6 +96,7 @@ const NavBar = () => {
             alt="glims-logo"
             width="155"
             height="88"
+            priority
           />
         </Link>
       </LogoWrapper>
@@ -60,41 +108,25 @@ const NavBar = () => {
           <Link href="/review">Review</Link>
         </Nav>
         <Utils>
-          <IconButton color="primary" aria-label="search">
+          <IconButton
+            color="primary"
+            aria-label="search"
+            onClick={searchHandler}
+          >
             <SearchIcon />
           </IconButton>
-          {isLogined ? (
-            <>
-              <IconButton
-                color="primary"
-                aria-label="user"
-                onClick={moveToMyPage}
-              >
-                <PersonOutlineIcon />
-              </IconButton>
-              <IconButton
-                color="primary"
-                aria-label="logout"
-                onClick={logoutUser}
-              >
-                <LogoutOutlined />
-              </IconButton>
-            </>
-          ) : (
-            <IconButton
-              color="primary"
-              aria-label="login"
-              onClick={loginModal.openModal}
-            >
-              <LoginOutlined />
-            </IconButton>
-          )}
+          <AuthModule loginModalCb={loginHandler} logoutModalCb={logoutUser} />
         </Utils>
       </NavContainer>
       <Modal
         modalKey={MODAL_KEYS.login}
         modalContent={<LoginModalContent />}
         open={loginModal.isOpen}
+      />
+      <Modal
+        modalKey={MODAL_KEYS.search}
+        modalContent={<SearchModal />}
+        open={searchModal.isOpen}
       />
     </>
   );

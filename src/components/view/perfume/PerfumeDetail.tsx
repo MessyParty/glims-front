@@ -1,8 +1,9 @@
-import { Perfume } from "@/apis/interfaces/perfume.interfece";
-import styled from "@emotion/styled";
 import React from "react";
+import styled from "@emotion/styled";
 import DetailRating from "./PerfumeDetailRating";
 import Rating from "@/components/common/Rating";
+import Modal from "@/components/common/Modal";
+import ReveiwModal from "../review/ReveiwModal";
 interface PerfumeDetailProps {
   data: {
     brandName: string;
@@ -10,13 +11,14 @@ interface PerfumeDetailProps {
     longevityRatings: number;
     overallRatings: number;
     perfumeName: string;
-    reviewCnt: number;
     sillageRatings: number;
     scentRatings: number;
     uuid: string;
     photos: { url: string }[];
     notes: { id: number; korName: string; engName: string }[];
     introduction: string;
+    heartCnt: number;
+    createdAt: string;
   };
 }
 
@@ -24,14 +26,15 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
   const {
     photos,
     brandName,
-    brandNameKor,
+    perfumeName,
     notes,
     scentRatings,
     longevityRatings,
     sillageRatings,
     overallRatings,
     introduction,
-  } = data as Perfume;
+    uuid,
+  } = data;
 
   return (
     <Container>
@@ -47,7 +50,7 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
         <PerfumeName>
           <div className="perfume-name-box">
             <p className="perfume-eng">{brandName}</p>
-            <p className="perfume-kor">{brandNameKor}</p>
+            <p className="perfume-kor">{perfumeName}</p>
           </div>
           <div className="perfume-intro">{introduction}</div>
           <div className="perfume-note">
@@ -96,6 +99,7 @@ export default PerfumeDetail;
 
 const Container = styled.div`
   margin: 2rem 0;
+  border-bottom: 1px solid #000;
 `;
 const PerfumeDescription = styled.div`
   display: grid;
@@ -105,8 +109,8 @@ const PerfumeDescription = styled.div`
   position: relative;
 
   .perfume-container {
-    width: 100%;
-    background-color: #fefeff;
+    width: 97%;
+    background-color: #f3f3f5;
     height: 35rem;
     overflow: hidden;
     border-bottom: 1px solid #000;

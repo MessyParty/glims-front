@@ -1,7 +1,8 @@
 import Image from "next/image";
+import React from "react";
 
 interface PerfumeImageProps {
-  imgSrc?: string;
+  imgSrc?: string[] | undefined;
   width: number;
   height: number;
 }
@@ -9,14 +10,24 @@ interface PerfumeImageProps {
 const PerfumeImage = ({ imgSrc, width, height }: PerfumeImageProps) => {
   return (
     <>
-      {imgSrc ? (
-        <Image src={imgSrc} alt="Perfume Image" width={width} height={height} />
+      {imgSrc && imgSrc.length > 0 ? (
+        imgSrc.map((photo, index) => (
+          <React.Fragment key={index}>
+            <Image
+              src={photo}
+              alt="Perfume Image"
+              width={width}
+              height={height}
+            />
+          </React.Fragment>
+        ))
       ) : (
         <Image
           src="/perfume-default.svg"
           alt="Perfume Image"
           width={width}
           height={height}
+          style={{ objectFit: "cover" }}
         />
       )}
     </>
