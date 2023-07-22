@@ -16,16 +16,18 @@ const LikeButton = ({ initialState, likeCount }: LikeButtonProps) => {
   };
 
   return (
-    <>
+    <Container>
       <IconButton color="primary" onClick={likeHandler} disableRipple>
         {isClicked ? <Favorite /> : <FavoriteBorder />}
       </IconButton>
       <LikeCount>{likeCount ?? 25}</LikeCount>
-    </>
+    </Container>
   );
 };
 
 export default LikeButton;
+
+const Container = styled.div``;
 
 const LikeCount = styled.div`
   display: inline-block;
