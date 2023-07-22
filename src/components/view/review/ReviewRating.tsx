@@ -30,12 +30,14 @@ const ReviewRating = ({ onChange, ratings }: ReviewRatingProps) => {
   return (
     <Wrapper>
       <div className="average">
-        <EditableRating
-          value={ratings.overallRatings}
-          onChange={(value) => handleRatingChange("overallRatings", value)}
-          precision={0.5}
-          fontSize="4rem"
-        />
+        <div>
+          <EditableRating
+            value={ratings.overallRatings}
+            onChange={(value) => handleRatingChange("overallRatings", value)}
+            precision={0.5}
+            fontSize="4rem"
+          />
+        </div>
       </div>
       <h2>Detail</h2>
       {RatingList.filter((rating) => rating.name !== "overallRatings").map(
@@ -43,7 +45,7 @@ const ReviewRating = ({ onChange, ratings }: ReviewRatingProps) => {
           <Item key={name}>
             <div className="rating-title">
               <p className="title">{title}</p>
-              <p className="subtitle">{subtitle}</p>
+              <p className="subtitle">{subtitle.toUpperCase()}</p>
             </div>
             <EditableRating
               value={ratings[name]}
@@ -72,6 +74,10 @@ const Wrapper = styled.div`
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
     margin-bottom: 36px;
+    width: 838px;
+    & > div {
+      text-align: center;
+    }
 
     & > .MuiRating-root {
       display: flex;
