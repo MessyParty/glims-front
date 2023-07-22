@@ -1,17 +1,12 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import styled from "@emotion/styled";
-import EditableRating from "@/components/common/EditableRating";
+import EditableRating from "@/components/common/EditAbleRating";
 
 type RatingName =
   | "overallRatings"
   | "longevityRatings"
   | "sillageRatings"
   | "scentRatings";
-
-type RatingsType = {
-  [key: string]: number;
-};
 
 const RatingList = [
   { name: "overallRatings", title: "총점", subtitle: "overall" },
@@ -22,7 +17,9 @@ const RatingList = [
 
 type ReviewRatingProps = {
   onChange: (name: RatingName, value: number) => void;
-  ratings: any;
+  ratings: {
+    [name: string]: number;
+  };
 };
 
 const ReviewRating = ({ onChange, ratings }: ReviewRatingProps) => {
