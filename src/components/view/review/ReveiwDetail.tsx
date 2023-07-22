@@ -167,8 +167,8 @@ const ReviewTopBox = styled.div`
 const ReviewTitleBox = styled.div`
   display: flex;
   justify-content: space-between;
-  border-top: 0.0625rem solid #000;
-  border-bottom: 0.0625rem solid #000;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
   padding: 16px 0;
 
   .review-title-text {
@@ -188,7 +188,7 @@ const ReviewTitleBox = styled.div`
         display: block;
         content: "";
         height: 1.125rem;
-        border-right: 0.0625rem solid #000;
+        border-right: 1px solid #000;
         position: absolute;
         top: 50%;
         right: -1.5625rem;
@@ -217,11 +217,10 @@ const Quote = styled.div`
 
 const ReviewDescription = styled.div`
   width: 1000px;
-  border-top: 0.0625rem solid #000;
+  border-top: 1px solid #000;
   padding: 1.7rem 0;
   margin: 3rem auto;
   font-size: 1.25rem;
-  font-weight: lighter;
 `;
 
 const ListButton = styled.div`

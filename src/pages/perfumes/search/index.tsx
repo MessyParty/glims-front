@@ -5,12 +5,22 @@ import RatedCard from "@/components/common/RatedCard";
 import { getSearch } from "@/apis/search";
 import styled from "@emotion/styled";
 import { useState } from "react";
-import SortController from "@/components/common/SortController";
 import TitleBox from "@/components/common/TitleBox";
+import SelectBox from "@/components/common/SelectBox";
+
+type SelectOptionValue = "DATE" | "HEARTS_COUNT";
+const options: { value: SelectOptionValue; label: string }[] = [
+  { value: "DATE", label: "날짜순" },
+  { value: "HEARTS_COUNT", label: "추천순" },
+];
 
 const Search = () => {
   const router = useRouter();
-  const [order, setOrder] = useState<"DATE" | "HEARTS_COUNT">("DATE");
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+  const [currentValue, setCurrentValue] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+
   const { brand, perfume, notes } = router.query as {
     brand: string;
     perfume: string;
@@ -21,6 +31,10 @@ const Search = () => {
     brand ? "brand" : perfume ? "perfume" : "notes",
     brand || perfume || notes,
   );
+
+  const handleOptionChange = (option: SelectOptionValue) => {
+    setSelectedOption(option);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -34,7 +48,12 @@ const Search = () => {
           subtitle={`검색 결과 총 ${results.length} 건`}
         />
         <div className="sort-container">
-          <SortController orderCallback={setOrder} />
+          <SelectBox
+            onChange={handleOptionChange}
+            options={options}
+            currentValue={currentValue}
+            setCurrentValue={setCurrentValue}
+          />
         </div>
         <div className="perfume-container">
           {results.map((result) => (

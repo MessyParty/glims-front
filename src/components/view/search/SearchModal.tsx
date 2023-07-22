@@ -8,11 +8,18 @@ import styled from "@emotion/styled";
 import SearchIcon from "@mui/icons-material/Search";
 
 type SelectOptionValue = "brand" | "perfume" | "notes";
+const options: { value: SelectOptionValue; label: string }[] = [
+  { value: "brand", label: "Brand" },
+  { value: "perfume", label: "Perfume" },
+  { value: "notes", label: "Notes" },
+];
+
 const SearchModal = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedOption, setSelectedOption] =
     useState<SelectOptionValue>("brand");
+  const [currentValue, setCurrentValue] = useState<SelectOptionValue>("brand");
 
   const { closeModal } = useModal(MODAL_KEYS.search);
 
@@ -43,7 +50,12 @@ const SearchModal = () => {
         <p>객관화되는 나의 향, 나의 취향</p>
       </div>
       <form className="search-box" onSubmit={handleSubmit}>
-        <SelectBox onChange={handleOptionChange} />
+        <SelectBox
+          onChange={handleOptionChange}
+          options={options}
+          currentValue={currentValue}
+          setCurrentValue={setCurrentValue}
+        />
         <label htmlFor="search"></label>
         <input
           type="text"
@@ -64,7 +76,7 @@ export default SearchModal;
 
 const Container = styled.div`
   width: 540px;
-  height: 300px;
+  height: 330px;
   padding: 40px 0;
 
   & .logo-box {

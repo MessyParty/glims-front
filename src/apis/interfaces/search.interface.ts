@@ -1,6 +1,6 @@
 export interface Search {
   content: {
-    photos: any;
+    photos: { url: string }[];
     overallRatings: number;
     id: number;
     brandName: string;

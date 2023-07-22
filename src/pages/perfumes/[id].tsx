@@ -8,7 +8,6 @@ import { getBestReviewByPerfume, getPerfumeReview } from "@/apis/review";
 import ListCard from "@/components/common/ListCard";
 import Modal from "@/components/common/Modal";
 import ReviewCard from "@/components/common/ReviewCard";
-import SortController from "@/components/common/SortController";
 import PerfumeDetail from "@/components/view/perfume/PerfumeDetail";
 import ReviewModal from "@/components/view/review/ReveiwModal";
 import { MODAL_KEYS } from "@/constants/modalKeys";
@@ -20,16 +19,31 @@ import {
 import useModal from "@/hooks/useModal";
 import styled from "@emotion/styled";
 import PaginationBar from "@/components/common/PaginationBar";
+import SelectBox from "@/components/common/SelectBox";
+import { useRecoilState } from "recoil";
+import { loginState } from "@/recoil/login";
+import LoginRequiredModalContent from "@/components/view/main/LoginRequiredModalContent";
+import DecorationBar from "@/components/common/DecorationBar";
 
 type DetailType = {
   id: string;
   bid: string;
 };
 
+type SelectOptionValue = "DATE" | "HEARTS_COUNT";
+const options: { value: SelectOptionValue; label: string }[] = [
+  { value: "DATE", label: "날짜순" },
+  { value: "HEARTS_COUNT", label: "추천순" },
+];
+
 const PerfumeDetailPage = () => {
-  const [order, setOrder] = useState<"DATE" | "HEARTS_COUNT">("DATE");
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+  const [currentValue, setCurrentValue] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [isLogined, setLoginState] = useRecoilState(loginState);
 
   const router = useRouter();
   const { id } = router.query;
@@ -39,11 +53,20 @@ const PerfumeDetailPage = () => {
   const { data: reviewData, isSuccess: isSuccessReview } = usePerfumeReviews(
     id as string,
   );
+
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const paginatedReviewData = reviewData?.slice(startIdx, endIdx);
 
   const reviewModal = useModal(MODAL_KEYS.review);
+  const loginRequiredModal = useModal(MODAL_KEYS.loginRequired);
+  const loginRequiredHandler = () => {
+    loginRequiredModal.openModal();
+  };
+  const handleOptionChange = (option: SelectOptionValue) => {
+    setSelectedOption(option);
+  };
+
   return (
     <Container>
       {isSuccess && <PerfumeDetail data={data} />}
@@ -61,19 +84,31 @@ const PerfumeDetailPage = () => {
             likeCount={bestReviewData[0].heartCnt}
             uuid={bestReviewData[0].uuid}
           />
+          <DecorationBar bottom={-4} right={0} />
         </Link>
       ) : (
         <p className="no-review-text">
           베스트 리뷰가 없습니다. 리뷰를 남겨주세요!
         </p>
       )}
-      <button
-        type="button"
-        onClick={reviewModal.openModal}
-        className="review-button"
-      >
-        리뷰 남기기
-      </button>
+
+      {isLogined ? (
+        <button
+          type="button"
+          onClick={reviewModal.openModal}
+          className="review-button"
+        >
+          리뷰 남기기
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={loginRequiredModal.openModal}
+          className="review-button"
+        >
+          로그인 하기
+        </button>
+      )}
       {isSuccess && (
         <Modal
           modalKey={MODAL_KEYS.review}
@@ -87,11 +122,20 @@ const PerfumeDetailPage = () => {
           open={reviewModal.isOpen}
         />
       )}
-
+      <Modal
+        modalKey={MODAL_KEYS.loginRequired}
+        modalContent={<LoginRequiredModalContent />}
+        open={loginRequiredModal.isOpen}
+      />
       {isSuccessReview && reviewData.length > 0 ? (
         <React.Fragment>
           <div className="sort-container">
-            <SortController orderCallback={setOrder} />
+            <SelectBox
+              onChange={handleOptionChange}
+              options={options}
+              currentValue={currentValue}
+              setCurrentValue={setCurrentValue}
+            />
           </div>
           {paginatedReviewData?.map((item) => (
             <Link href={`/review/${item.uuid}`} key={item.uuid}>
@@ -183,5 +227,9 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     margin: 0.5rem;
+  }
+
+  & > a {
+    position: relative;
   }
 `;
