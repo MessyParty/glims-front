@@ -13,11 +13,14 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import Modal from "@/components/common/Modal";
 import React from "react";
 import SearchModal from "@/components/view/search/SearchModal";
+import { useRandomPerfume } from "@/hooks/queries/usePerfume";
+import RatedCard from "@/components/common/RatedCard";
 
 const Main = () => {
   const { data: profileData } = useProfile();
   const { data: bestData, isSuccess } = useBestReviews(3);
   const { data: myReviewData } = useMyReviews({});
+  const { data: randomPerfumeData } = useRandomPerfume();
   const isLogined = useRecoilValue(loginState);
   const searchModal = useModal(MODAL_KEYS.search);
 
@@ -121,7 +124,22 @@ const Main = () => {
               </ReviewCreateButton>
             </>
           ) : (
-            <></>
+            <>
+              <HighlightText>
+                향수를 선택하는 새롭고 스마트한 구매 여정,
+              </HighlightText>
+              <HighlightText>오늘 시작해보세요!</HighlightText>
+              <div className="random-perfumes">
+                <HighlightText>Today's Perfumes</HighlightText>
+                {randomPerfumeData?.map((item) => (
+                  <RatedCard
+                    brandName={item.brandName}
+                    perfumeName={item.perfumeName}
+                    score={item.overallRatings}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </MyInfoWrapper>
       </Container>
@@ -187,6 +205,16 @@ const MyInfoWrapper = styled.div`
       & > .like-button {
         text-align: right;
       }
+    }
+  }
+
+  & > .random-perfumes {
+    margin-top: 308px;
+    padding: 0;
+
+    & > .MuiPaper-root {
+      border: none;
+      box-shadow: none;
     }
   }
 `;

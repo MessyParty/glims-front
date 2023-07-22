@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getPerfume } from "@/apis/perfume";
 import { getBestReviewByPerfume, getPerfumeReview } from "@/apis/review";
 import ListCard from "@/components/common/ListCard";
@@ -10,7 +10,7 @@ import ReviewCard from "@/components/common/ReviewCard";
 import PerfumeDetail from "@/components/view/perfume/PerfumeDetail";
 import ReviewModal from "@/components/view/review/ReveiwModal";
 import { MODAL_KEYS } from "@/constants/modalKeys";
-import usePerfume from "@/hooks/queries/usePerfume";
+import { usePerfume } from "@/hooks/queries/usePerfume";
 import {
   useBestPerfumeReview,
   usePerfumeReviews,
