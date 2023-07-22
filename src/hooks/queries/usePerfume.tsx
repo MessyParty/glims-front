@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPerfume } from "@/apis/perfume";
+import { getPerfume, getRandomPerfume } from "@/apis/perfume";
 
-const usePerfume = (uuid: string) => {
+export const usePerfume = (uuid: string) => {
   return useQuery(["perfume", uuid], () => getPerfume(uuid));
 };
 
-export default usePerfume;
+export const useRandomPerfume = (num: number = 2) => {
+  return useQuery(["perfume", "random"], () => getRandomPerfume(num));
+};
