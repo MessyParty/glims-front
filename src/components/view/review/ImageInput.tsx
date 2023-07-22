@@ -1,6 +1,6 @@
-import PhotoIcon from "@/components/common/CustomIcon/PhotoIcon";
-import styled from "@emotion/styled";
 import React, { useRef, useState, Dispatch, SetStateAction } from "react";
+import styled from "@emotion/styled";
+import PhotoIcon from "@/components/common/CustomIcon/PhotoIcon";
 
 type ImageInputProps = {
   setSelectedFile: Dispatch<SetStateAction<File | string>>;
@@ -33,8 +33,17 @@ const ImageInput = ({ setSelectedFile }: ImageInputProps) => {
 
   return (
     <Container>
+      <h2>File</h2>
       <label htmlFor="upload-button">
-        File
+        <div>
+          {thumbnail ? (
+            <img src={thumbnail} alt="review photo" />
+          ) : (
+            <button className="image-button" onClick={handleButtonClick}>
+              <PhotoIcon />
+            </button>
+          )}
+        </div>
         <input
           id="upload-button"
           type="file"
@@ -42,13 +51,6 @@ const ImageInput = ({ setSelectedFile }: ImageInputProps) => {
           ref={uploadButtonRef}
           onChange={handleFileChange}
         />
-        {thumbnail ? (
-          <img src={thumbnail} alt="review photo" />
-        ) : (
-          <button onClick={handleButtonClick} className="image-button">
-            <PhotoIcon />
-          </button>
-        )}
       </label>
     </Container>
   );
@@ -57,9 +59,15 @@ const ImageInput = ({ setSelectedFile }: ImageInputProps) => {
 export default ImageInput;
 
 const Container = styled.div`
+  & > h2 {
+    margin-bottom: 22px;
+    font-size: 22px;
+    font-weight: bold;
+  }
   & > label {
-    display: flex;
+    display: block;
     flex-direction: column;
+    width: 9rem;
 
     & > img {
       margin: 1rem 0;

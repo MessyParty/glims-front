@@ -2,8 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import DetailRating from "./PerfumeDetailRating";
 import Rating from "@/components/common/Rating";
-import Modal from "@/components/common/Modal";
-import ReveiwModal from "../review/ReveiwModal";
+import DecorationBar from "@/components/common/DecorationBar";
 interface PerfumeDetailProps {
   data: {
     brandName: string;
@@ -40,7 +39,7 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
     <Container>
       <PerfumeDescription>
         <div className="perfume-container">
-          <TopDecorationBar />
+          <DecorationBar top={-4} left={0} />
           <div className="perfume-thumb">
             <div className="perfume-img">
               <img src={photos[0].url} alt="perfume image" />
@@ -61,9 +60,12 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
               </div>
             ))}
           </div>
+          <DecorationBar bottom={-4} right={0} />
         </PerfumeName>
       </PerfumeDescription>
       <PerfumeInfo>
+        <DecorationBar bottom={-4} left={0} />
+
         <div className="perfume-note-box">
           <h1 className="title">Note</h1>
           <div className="perfume-note">
@@ -90,7 +92,6 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
           </div>
         </div>
       </PerfumeInfo>
-      <BottomDecorationBar />
     </Container>
   );
 };
@@ -221,6 +222,7 @@ const PerfumeInfo = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 2rem;
   border-top: 1px solid #000;
+  position: relative;
   & .title {
     font-size: 1.6rem;
     line-height: 1.5;

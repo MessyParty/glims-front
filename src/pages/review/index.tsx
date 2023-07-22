@@ -1,7 +1,7 @@
-import { getAllReview, getReview } from "@/apis/review";
+import { getAllReview } from "@/apis/review";
 import ListCard from "@/components/common/ListCard";
 import ReviewCard from "@/components/common/ReviewCard";
-import SortController from "@/components/common/SortController";
+import SelectBox from "@/components/common/SelectBox";
 import TitleBox from "@/components/common/TitleBox";
 import { useAllReview, useBestReviews } from "@/hooks/queries/useReivew";
 import styled from "@emotion/styled";
@@ -10,11 +10,26 @@ import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
 
+type SelectOptionValue = "DATE" | "HEARTS_COUNT";
+const options: { value: SelectOptionValue; label: string }[] = [
+  { value: "DATE", label: "날짜순" },
+  { value: "HEARTS_COUNT", label: "추천순" },
+];
+
 const ReviewPage = () => {
-  const [order, setOrder] = useState<"DATE" | "HEARTS_COUNT">("DATE");
-  const { data, isSuccess } = useAllReview({ limit: 5, orderStandard: order });
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+  const [currentValue, setCurrentValue] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+  const { data, isSuccess } = useAllReview({
+    limit: 5,
+    orderStandard: selectedOption,
+  });
   const { data: bestData, isSuccess: isSuccessBest } = useBestReviews(3);
 
+  const handleOptionChange = (option: SelectOptionValue) => {
+    setSelectedOption(option);
+  };
   return (
     <Container>
       <TitleBox title={"REVIEW"} subtitle={"BEST AND ALL"} />
@@ -33,8 +48,12 @@ const ReviewPage = () => {
           </Link>
         ))}
       <div className="sort-container">
-        <SortController orderCallback={setOrder} />
-        <button>+ 내 리뷰 남기기</button>
+        <SelectBox
+          onChange={handleOptionChange}
+          options={options}
+          currentValue={currentValue}
+          setCurrentValue={setCurrentValue}
+        />
       </div>
       {isSuccess &&
         data?.map((item) => (

@@ -1,13 +1,14 @@
+import { useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import Link from "next/link";
 import styled from "@emotion/styled";
-import { IconButton } from "@mui/material";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import { ERROR_PAGE_REGEX } from "@/constants/regex";
-import { useRecoilState } from "recoil";
-import { loginState } from "@/recoil/login";
+import { useRecoilCallback, useRecoilState } from "recoil";
+import { loginState, loginStateSelector } from "@/recoil/login";
 import { LoginOutlined, LogoutOutlined } from "@mui/icons-material";
 import { logout } from "@/apis/auth";
 import { removeCookie } from "@/utils/cookie";
@@ -16,45 +17,7 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import LoginModalContent from "@/components/view/main/LoginModalContent";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
-import { getCookie } from "@/utils/cookie";
-import { useEffect, useState } from "react";
-import SearchModal from "../view/search/searchModal";
-
-interface AuthModuleProps {
-  loginModalCb: () => void;
-  logoutModalCb: () => void;
-}
-
-const AuthModule = ({ loginModalCb, logoutModalCb }: AuthModuleProps) => {
-  const router = useRouter();
-  const [logined, setLogined] = useState<boolean>(false);
-
-  useEffect(() => {
-    const token = getCookie(ACCESS_TOKEN_COOKIE);
-    // early return
-    if (!token) return;
-    setLogined(true);
-  }, []);
-
-  const mypageHandler = () => {
-    router.push("/mypage");
-  };
-
-  return logined ? (
-    <>
-      <IconButton color="primary" aria-label="user" onClick={mypageHandler}>
-        <PersonOutlineIcon />
-      </IconButton>
-      <IconButton color="primary" aria-label="logout" onClick={logoutModalCb}>
-        <LogoutOutlined />
-      </IconButton>
-    </>
-  ) : (
-    <IconButton color="primary" aria-label="login" onClick={loginModalCb}>
-      <LoginOutlined />
-    </IconButton>
-  );
-};
+import SearchModal from "@/components/view/search/SearchModal";
 
 const NavBar = () => {
   const router = useRouter();
@@ -65,6 +28,15 @@ const NavBar = () => {
   const moveToMyPage = () => {
     router.push("/mypage");
   };
+
+  const initializeLoginState = useRecoilCallback(({ snapshot }) => async () => {
+    const loggedIn = await snapshot.getPromise(loginStateSelector);
+    setLoginState(loggedIn);
+  });
+
+  useEffect(() => {
+    initializeLoginState();
+  }, []);
 
   const logoutUser = async () => {
     try {
@@ -92,7 +64,7 @@ const NavBar = () => {
       <LogoWrapper>
         <Link href="/">
           <Image
-            src="./glims-logo.svg"
+            src="/glims-logo.svg"
             alt="glims-logo"
             width="155"
             height="88"
@@ -115,7 +87,32 @@ const NavBar = () => {
           >
             <SearchIcon />
           </IconButton>
-          <AuthModule loginModalCb={loginHandler} logoutModalCb={logoutUser} />
+          {isLogined ? (
+            <>
+              <IconButton
+                color="primary"
+                aria-label="user"
+                onClick={moveToMyPage}
+              >
+                <PersonOutlineIcon />
+              </IconButton>
+              <IconButton
+                color="primary"
+                aria-label="logout"
+                onClick={logoutUser}
+              >
+                <LogoutOutlined />
+              </IconButton>
+            </>
+          ) : (
+            <IconButton
+              color="primary"
+              aria-label="login"
+              onClick={loginHandler}
+            >
+              <LoginOutlined />
+            </IconButton>
+          )}
         </Utils>
       </NavContainer>
       <Modal
