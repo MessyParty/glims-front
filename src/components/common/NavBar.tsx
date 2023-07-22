@@ -1,10 +1,11 @@
+import { useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import Link from "next/link";
 import styled from "@emotion/styled";
-import { IconButton } from "@mui/material";
-import { useRouter } from "next/router";
-import Image from "next/image";
 import { ERROR_PAGE_REGEX } from "@/constants/regex";
 import { useRecoilCallback, useRecoilState } from "recoil";
 import { loginState, loginStateSelector } from "@/recoil/login";
@@ -16,9 +17,7 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import LoginModalContent from "@/components/view/main/LoginModalContent";
 import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
-import { getCookie } from "@/utils/cookie";
-import { useEffect, useState } from "react";
-import SearchModal from "../view/search/SearchModal";
+import SearchModal from "@/components/view/search/SearchModal";
 
 const NavBar = () => {
   const router = useRouter();
@@ -88,7 +87,6 @@ const NavBar = () => {
           >
             <SearchIcon />
           </IconButton>
-          {/* <AuthModule loginModalCb={loginHandler} logoutModalCb={logoutUser} /> */}
           {isLogined ? (
             <>
               <IconButton
