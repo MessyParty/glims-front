@@ -7,6 +7,9 @@ import {
   updateReview,
   createReview,
   createReviewPhoto,
+  getBestReview,
+  getBestReviewByPerfume,
+  getPerfumeReview,
 } from "@/apis/review";
 
 type UseAllReviewsProps = {
@@ -34,6 +37,7 @@ export const useAllReview = ({
       limit,
       orderStandard,
       sortType,
+      offset: 0,
     }),
   );
 };
@@ -46,6 +50,10 @@ export const useDeleteReview = () => {
       queryClient.invalidateQueries(["review"]);
     },
   });
+};
+
+export const useBestReviews = (num: number) => {
+  return useQuery(["review", "best", num], () => getBestReview(num));
 };
 
 export const useCreateReview = () => {
@@ -94,4 +102,12 @@ export const useCreateReviewPhoto = () => {
   return useMutation(({ id, photo }: PhotoPayloadType) =>
     createReviewPhoto(id, photo),
   );
+};
+
+export const useBestPerfumeReview = (id: string) => {
+  return useQuery(["bestPerfumeReview", id], () => getBestReviewByPerfume(id));
+};
+
+export const usePerfumeReviews = (id: string) => {
+  return useQuery(["perfumeReview", id], () => getPerfumeReview(id));
 };
