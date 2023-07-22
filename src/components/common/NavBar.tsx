@@ -18,7 +18,7 @@ import Modal from "@/components/common/Modal";
 import useModal from "@/hooks/useModal";
 import { getCookie } from "@/utils/cookie";
 import { useEffect, useState } from "react";
-import SearchModal from "../view/search/searchModal";
+import SearchModal from "../view/search/SearchModal";
 
 interface AuthModuleProps {
   loginModalCb: () => void;
@@ -92,7 +92,7 @@ const NavBar = () => {
       <LogoWrapper>
         <Link href="/">
           <Image
-            src="./glims-logo.svg"
+            src="/glims-logo.svg"
             alt="glims-logo"
             width="155"
             height="88"
