@@ -54,7 +54,7 @@ const MyPage = () => {
             <div className="reviews">
               {paginatedReviewData?.map((item) => (
                 <RatedCard
-                  brandName={item.perfumeBrand}
+                  brandName={item.perfumeBrandEng}
                   perfumeName={item.perfumeName}
                   score={item.overallRatings}
                 />

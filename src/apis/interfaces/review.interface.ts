@@ -5,7 +5,7 @@ export type Review = {
   longevityRatings: number;
   nickname: string;
   overallRatings: number;
-  perfumeBrand: string;
+  perfumeBrandKor: string;
   perfumeBrandEng: string;
   perfumeName: string;
   photoUrls: string[];
