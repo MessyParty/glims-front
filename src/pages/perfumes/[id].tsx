@@ -8,7 +8,6 @@ import { getBestReviewByPerfume, getPerfumeReview } from "@/apis/review";
 import ListCard from "@/components/common/ListCard";
 import Modal from "@/components/common/Modal";
 import ReviewCard from "@/components/common/ReviewCard";
-import SortController from "@/components/common/SortController";
 import PerfumeDetail from "@/components/view/perfume/PerfumeDetail";
 import ReviewModal from "@/components/view/review/ReveiwModal";
 import { MODAL_KEYS } from "@/constants/modalKeys";
@@ -20,14 +19,24 @@ import {
 import useModal from "@/hooks/useModal";
 import styled from "@emotion/styled";
 import PaginationBar from "@/components/common/PaginationBar";
+import SelectBox from "@/components/common/SelectBox";
 
 type DetailType = {
   id: string;
   bid: string;
 };
 
+type SelectOptionValue = "DATE" | "HEARTS_COUNT";
+const options: { value: SelectOptionValue; label: string }[] = [
+  { value: "DATE", label: "날짜순" },
+  { value: "HEARTS_COUNT", label: "추천순" },
+];
+
 const PerfumeDetailPage = () => {
-  const [order, setOrder] = useState<"DATE" | "HEARTS_COUNT">("DATE");
+  const [selectedOption, setSelectedOption] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
+  const [currentValue, setCurrentValue] =
+    useState<SelectOptionValue>("HEARTS_COUNT");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -44,6 +53,11 @@ const PerfumeDetailPage = () => {
   const paginatedReviewData = reviewData?.slice(startIdx, endIdx);
 
   const reviewModal = useModal(MODAL_KEYS.review);
+
+  const handleOptionChange = (option: SelectOptionValue) => {
+    setSelectedOption(option);
+  };
+
   return (
     <Container>
       {isSuccess && <PerfumeDetail data={data} />}
@@ -91,7 +105,12 @@ const PerfumeDetailPage = () => {
       {isSuccessReview && reviewData.length > 0 ? (
         <React.Fragment>
           <div className="sort-container">
-            <SortController orderCallback={setOrder} />
+            <SelectBox
+              onChange={handleOptionChange}
+              options={options}
+              currentValue={currentValue}
+              setCurrentValue={setCurrentValue}
+            />
           </div>
           {paginatedReviewData?.map((item) => (
             <Link href={`/review/${item.uuid}`} key={item.uuid}>

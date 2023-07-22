@@ -3,23 +3,29 @@ import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-type SelectOptionValue = "brand" | "perfume" | "notes";
+type SelectOptionValue =
+  | "brand"
+  | "perfume"
+  | "notes"
+  | "DATE"
+  | "HEARTS_COUNT";
 
-const options: { value: SelectOptionValue; label: string }[] = [
-  { value: "brand", label: "Brand" },
-  { value: "perfume", label: "Perfume" },
-  { value: "notes", label: "Notes" },
-];
-
-type SelectBoxProps = {
-  onChange: (selectedOption: SelectOptionValue) => void;
+type SelectBoxProps<T> = {
+  onChange: (selectedOption: T) => void;
+  options: { value: string; label: string }[];
+  currentValue: string;
+  setCurrentValue: (selectedOption: T) => void;
 };
 
-const SelectBox = ({ onChange }: SelectBoxProps) => {
-  const [currentValue, setCurrentValue] = useState<SelectOptionValue>("brand");
+const SelectBox = <T extends SelectOptionValue>({
+  onChange,
+  options,
+  currentValue,
+  setCurrentValue,
+}: SelectBoxProps<T>) => {
   const [isShowOptions, setIsShowOptions] = useState(false);
 
-  const handleOnChangeSelectValue = (selectedOption: SelectOptionValue) => {
+  const handleOnChangeSelectValue = (selectedOption: T) => {
     setCurrentValue(selectedOption);
     onChange(selectedOption);
   };
@@ -28,16 +34,19 @@ const SelectBox = ({ onChange }: SelectBoxProps) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  const currentOption = options.find((option) => option.value === currentValue);
+  const currentLabel = currentOption ? currentOption.label : "";
+
   return (
     <Container onClick={() => setIsShowOptions((prev) => !prev)}>
       {isShowOptions ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-      <SelectLabel>{capitalize(currentValue)}</SelectLabel>
+      <SelectLabel>{capitalize(currentLabel)}</SelectLabel>
       <SelectOptions show={isShowOptions}>
         {options.map((option) => (
           <SelectOption
             key={option.value}
             value={option.value}
-            onClick={() => handleOnChangeSelectValue(option.value)}
+            onClick={() => handleOnChangeSelectValue(option.value as T)}
           >
             {capitalize(option.label)}
           </SelectOption>
@@ -51,7 +60,7 @@ export default SelectBox;
 
 const Container = styled.div`
   position: relative;
-  width: 136px;
+  min-width: 136px;
   height: 52px;
   background-color: white;
   display: flex;
@@ -75,10 +84,15 @@ const SelectOptions = styled.ul<{ show: boolean }>`
   font-size: 18px;
   overflow: hidden;
   max-height: ${(props) => (props.show ? "none" : "0")};
-  top: 4rem;
+  top: 3.5rem;
   left: 0;
   width: 100%;
   padding: 0 0.5rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
+  -webkit-box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
+  -moz-box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
 `;
 
 const SelectOption = styled.li`
