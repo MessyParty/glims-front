@@ -57,6 +57,7 @@ const PerfumeDetailPage = () => {
     refetch: refetchReview,
   } = usePerfumeReviews(id as string);
 
+
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const paginatedReviewData = reviewData?.slice(startIdx, endIdx);

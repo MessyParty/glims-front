@@ -43,7 +43,7 @@ const MyPage = () => {
             author={reviewData[0].nickname}
             likeCount={reviewData[0].heartCnt}
             score={reviewData[0].overallRatings}
-            uuid={reviewData[0].perfumeUuid}
+            uuid={reviewData[0].uuid}
           />
         ) : (
           <p>작성된 베스트 리뷰가 없습니다!</p>
