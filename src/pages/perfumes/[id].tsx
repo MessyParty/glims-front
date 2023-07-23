@@ -87,7 +87,6 @@ const PerfumeDetailPage = () => {
             uuid={bestReviewData[0].uuid}
             imgSrc={bestReviewData[0].photoUrls}
           />
-          <DecorationBar bottom={-4} right={0} />
         </React.Fragment>
       ) : (
         <p className="no-review-text">
