@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import RatedCard from "@/components/common/RatedCard";
 import React, { useState } from "react";
 import PaginationBar from "@/components/common/PaginationBar";
+import Link from "next/link";
 
 const MyPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,11 +54,19 @@ const MyPage = () => {
           <>
             <div className="reviews">
               {paginatedReviewData?.map((item) => (
-                <RatedCard
-                  brandName={item.perfumeBrandEng}
-                  perfumeName={item.perfumeName}
-                  score={item.overallRatings}
-                />
+                <Link href={`/review/${item.uuid}`}>
+                  <RatedCard
+                    brandName={item.perfumeBrandEng}
+                    perfumeName={item.perfumeName}
+                    score={item.overallRatings}
+                    imgSrc={
+                      item.photoUrls.length === 0
+                        ? "/perfume-default.svg"
+                        : item.photoUrls[0]
+                    }
+                    uuid={item.uuid}
+                  />
+                </Link>
               ))}
             </div>
             <div className="pagination-container">
