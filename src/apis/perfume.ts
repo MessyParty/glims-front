@@ -23,7 +23,7 @@ export const getBestPerfume = async (num: number): Promise<Perfume[]> => {
 
 export const getRandomPerfume = async (num: number): Promise<Perfume[]> => {
   const { data } = await axios.get<Perfume[]>(
-    "https://dev.glims.store/api/v1/perfumes/best",
+    "https://dev.glims.store/api/v1/perfumes/random",
     {
       params: {
         amount: num,

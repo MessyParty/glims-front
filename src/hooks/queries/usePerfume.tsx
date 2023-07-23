@@ -6,5 +6,5 @@ export const usePerfume = (uuid: string) => {
 };
 
 export const useRandomPerfume = (num: number = 2) => {
-  return useQuery(["perfume", "random"], () => getRandomPerfume(num));
+  return useQuery(["perfume", "random", num], () => getRandomPerfume(num));
 };
