@@ -34,7 +34,7 @@ const RatedCard = ({
               <p>{brandName}</p>
               <p>{perfumeName}</p>
             </div>
-            <div className="score-text">{score}</div>
+            <div className="score-text">{score.toFixed(1)}</div>
           </PerfumeBox>
         </Link>
       </Wrapper>

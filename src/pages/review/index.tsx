@@ -1,14 +1,13 @@
+import React, { useState } from "react";
+import { GetServerSideProps } from "next";
+import { QueryClient, dehydrate } from "@tanstack/react-query";
+import styled from "@emotion/styled";
 import { getAllReview } from "@/apis/review";
 import ListCard from "@/components/common/ListCard";
 import ReviewCard from "@/components/common/ReviewCard";
 import SelectBox from "@/components/common/SelectBox";
 import TitleBox from "@/components/common/TitleBox";
 import { useAllReview, useBestReviews } from "@/hooks/queries/useReivew";
-import styled from "@emotion/styled";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { GetServerSideProps } from "next";
-import Link from "next/link";
-import React, { useState } from "react";
 
 type SelectOptionValue = "DATE" | "HEARTS_COUNT";
 const options: { value: SelectOptionValue; label: string }[] = [
@@ -35,7 +34,7 @@ const ReviewPage = () => {
       <TitleBox title={"REVIEW"} subtitle={"BEST AND ALL"} />
       {isSuccessBest &&
         bestData?.map((item) => (
-          <Link href={`/review/${item.uuid}`} key={item.uuid}>
+          <React.Fragment key={item.uuid}>
             <ReviewCard
               title={item.title}
               author={item.nickname}
@@ -45,7 +44,7 @@ const ReviewPage = () => {
               description={item.body}
               imgSrc={item.photoUrls}
             />
-          </Link>
+          </React.Fragment>
         ))}
       <div className="sort-container">
         <SelectBox
@@ -57,7 +56,7 @@ const ReviewPage = () => {
       </div>
       {isSuccess &&
         data?.map((item) => (
-          <Link href={`/review/${item.uuid}`} key={item.uuid}>
+          <React.Fragment key={item.uuid}>
             <ListCard
               likeCount={item.heartCnt}
               title={item.title}
@@ -68,7 +67,7 @@ const ReviewPage = () => {
               body={item.body}
               imgSrc={item.photoUrls}
             />
-          </Link>
+          </React.Fragment>
         ))}
     </Container>
   );

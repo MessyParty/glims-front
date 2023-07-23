@@ -3,6 +3,7 @@ import PerfumeImage from "@/components/common/PerfumeImage";
 import LikeButton from "@/components/common/LikeButton";
 import Rating from "@/components/common/Rating";
 import useFormatDate from "@/hooks/useFormatDate";
+import Link from "next/link";
 
 interface ListCardProps {
   imgSrc?: string[];
@@ -35,13 +36,15 @@ const ListCard = ({
         </div>
       </ImageWrapper>
       <ReviewWrapper>
-        <Rating score={score} fontSize="70px" />
-        <p className="title">{title}</p>
-        <p className="body">{body?.slice(0, 120) + "..."}</p>
-        <div className="meta">
-          <span>{date}</span>
-          <span>by {nickname}</span>
-        </div>
+        <Link href={`/review/${uuid}`}>
+          <Rating score={score} fontSize="70px" />
+          <p className="title">{title}</p>
+          <p className="body">{body?.slice(0, 120) + "..."}</p>
+          <div className="meta">
+            <span>{date}</span>
+            <span>by {nickname}</span>
+          </div>
+        </Link>
       </ReviewWrapper>
     </Container>
   );
@@ -73,32 +76,34 @@ const ReviewWrapper = styled.div`
   padding: 8px 0;
   width: 100%;
   height: 250px;
-  display: grid;
-  grid-template-rows: repeat(3, minmax(10px, auto));
-  grid-row-gap: 20px;
 
-  & > .title {
-    font-size: 24px;
-    font-weight: bold;
-    padding-left: 1rem;
-  }
-
-  & > .body {
-    font-size: 18px;
-    line-height: 1.5;
-    padding-left: 1rem;
-  }
-
-  & > .meta {
-    text-align: right;
-
-    span:first-of-type {
-      padding-right: 30px;
-      border-right: solid 1px;
+  & > a {
+    display: grid;
+    grid-template-rows: repeat(3, minmax(10px, auto));
+    grid-row-gap: 20px;
+    & > .title {
+      font-size: 24px;
+      font-weight: bold;
+      padding-left: 1rem;
     }
 
-    span:last-of-type {
-      padding-left: 30px;
+    & > .body {
+      font-size: 18px;
+      line-height: 1.5;
+      padding-left: 1rem;
+    }
+
+    & > .meta {
+      text-align: right;
+
+      span:first-of-type {
+        padding-right: 30px;
+        border-right: solid 1px;
+      }
+
+      span:last-of-type {
+        padding-left: 30px;
+      }
     }
   }
 `;

@@ -3,6 +3,7 @@ import PerfumeImage from "@/components/common/PerfumeImage";
 import LikeButton from "@/components/common/LikeButton";
 import Image from "next/image";
 import Rating from "@/components/common/Rating";
+import Link from "next/link";
 
 interface ReviewCardProps {
   title: string;
@@ -25,38 +26,40 @@ const ReviewCard = ({
 }: ReviewCardProps) => {
   return (
     <Container>
-      <ContentWrapper>
-        <div className="title">
-          <div className="quote">
-            <Image
-              src="/quote-left.svg"
-              alt="Quote Left"
-              width={38}
-              height={36}
-            />
-            <p>{title}</p>
-            <Image
-              src="/quote-right.svg"
-              alt="Quote Right"
-              width={38}
-              height={36}
-            />
+      <Link href={`/review/${uuid}`}>
+        <ContentWrapper>
+          <div className="title">
+            <div className="quote">
+              <Image
+                src="/quote-left.svg"
+                alt="Quote Left"
+                width={38}
+                height={36}
+              />
+              <p>{title}</p>
+              <Image
+                src="/quote-right.svg"
+                alt="Quote Right"
+                width={38}
+                height={36}
+              />
+            </div>
+            <div className="author">
+              <p>by {author}</p>
+            </div>
           </div>
-          <div className="author">
-            <p>by {author}</p>
+          <div className="score">
+            <div className="average-score">
+              <span>AVERAGE</span>
+              <span>SCORE</span>
+            </div>
+            <Rating score={score} fontSize="68px" />
           </div>
-        </div>
-        <div className="score">
-          <div className="average-score">
-            <span>AVERAGE</span>
-            <span>SCORE</span>
+          <div className="description">
+            <p>{description?.slice(0, 120) + "..."}</p>
           </div>
-          <Rating score={score} fontSize="68px" />
-        </div>
-        <div className="description">
-          <p>{description?.slice(0, 120) + "..."}</p>
-        </div>
-      </ContentWrapper>
+        </ContentWrapper>
+      </Link>
       <ImageWrapper>
         <PerfumeImage imgSrc={imgSrc} width={500} height={500} />
         <div className="like-button">
@@ -79,6 +82,7 @@ const Container = styled.div`
 
 const ContentWrapper = styled.div`
   flex: 1;
+  width: 632px;
 
   & > .title {
     border-bottom: solid 0.5px #707070;
