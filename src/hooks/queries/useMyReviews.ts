@@ -10,13 +10,13 @@ type UseReviewsProps = {
 
 const useMyReviews = ({
   offset = 0,
-  limit = 3,
+  limit = 1000,
   orderStandard = "HEARTS_COUNT",
   sortType = "DESC",
 }: UseReviewsProps) => {
   return useQuery(
     ["review", "my", offset, limit, orderStandard, sortType],
-    () => getMyReview({ offset, limit, orderStandard, sortType })
+    () => getMyReview({ offset, limit, orderStandard, sortType }),
   );
 };
 
