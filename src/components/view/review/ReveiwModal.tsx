@@ -104,38 +104,42 @@ const ReviewModal = ({
     event.preventDefault();
 
     if (
-      title.length < 15 &&
-      title.length > 10 &&
-      review.length > 10 &&
-      rating &&
-      perfumeUuid
+      title.length < 11 ||
+      title.length > 14 ||
+      review.length <= 10 ||
+      !rating ||
+      !perfumeUuid
     ) {
-      const data = {
-        title,
-        perfumeUuid,
-        body: review,
-        longevityRatings: rating.longevityRatings,
-        overallRatings: rating.overallRatings,
-        scentRatings: rating.scentRatings,
-        sillageRatings: rating.sillageRatings,
-        photoUrls: selectedFile,
-      };
+      setError(true);
+      return;
+    }
 
+    const data = {
+      title,
+      perfumeUuid,
+      body: review,
+      longevityRatings: rating.longevityRatings,
+      overallRatings: rating.overallRatings,
+      scentRatings: rating.scentRatings,
+      sillageRatings: rating.sillageRatings,
+    };
+
+    if (!reviewId) {
+      const createdReview = await mutateAsync({ ...data });
+      await handlePhotoUpload(createdReview.uuid);
+      closeModal();
+      return;
+    }
+    updateReviewMutation({ ...data });
+    await handlePhotoUpload(reviewId);
+    closeModal();
+  };
+
+  const handlePhotoUpload = async (id: string) => {
+    if (selectedFile) {
       const formData = new FormData();
       formData.append("files", selectedFile);
-
-      if (!reviewId) {
-        const result = await mutateAsync({ ...data });
-        if (!formData) {
-          await mutatePhoto({ id: result.uuid, photo: formData });
-        }
-        return;
-      }
-      updateReviewMutation({ ...data });
-
-      closeModal();
-    } else {
-      setError(true);
+      await mutatePhoto({ id, photo: formData });
     }
   };
 
