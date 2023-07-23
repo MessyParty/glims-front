@@ -7,7 +7,7 @@ interface RatedCardProps extends CardProps {
   perfumeName: string;
   score: number;
   imgSrc?: string;
-  uuid: string;
+  uuid?: string;
 }
 
 const RatedCard = ({

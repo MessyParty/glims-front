@@ -32,7 +32,7 @@ const ListCard = ({
       <ImageWrapper>
         <PerfumeImage imgSrc={imgSrc} width={342} height={342} />
         <div className="like-button">
-          <LikeButton likeCount={likeCount} />
+          <LikeButton likeCount={likeCount} uuid={uuid} />
         </div>
       </ImageWrapper>
       <ReviewWrapper>

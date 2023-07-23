@@ -63,7 +63,7 @@ const ReviewCard = ({
       <ImageWrapper>
         <PerfumeImage imgSrc={imgSrc} width={500} height={500} />
         <div className="like-button">
-          <LikeButton likeCount={likeCount} />
+          <LikeButton likeCount={likeCount} uuid={uuid} />
         </div>
       </ImageWrapper>
     </Container>
