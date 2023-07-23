@@ -14,8 +14,9 @@ const useMyReviews = ({
   orderStandard = "HEARTS_COUNT",
   sortType = "DESC",
 }: UseReviewsProps) => {
-  return useQuery(["myReviews", offset, limit, orderStandard, sortType], () =>
-    getMyReview({ offset, limit, orderStandard, sortType })
+  return useQuery(
+    ["review", "my", offset, limit, orderStandard, sortType],
+    () => getMyReview({ offset, limit, orderStandard, sortType })
   );
 };
 

@@ -48,7 +48,10 @@ const Main = () => {
                         <BrandText>{bestData[0].perfumeBrandEng}</BrandText>
                         <NameText>{bestData[0].perfumeName}</NameText>
                       </div>
-                      <LikeButton />
+                      <LikeButton
+                        likeCount={bestData[0].heartCnt}
+                        uuid={bestData[0].uuid}
+                      />
                     </div>
                   </div>
                 </div>
@@ -66,7 +69,10 @@ const Main = () => {
                         <BrandText>{bestData[1].perfumeBrandEng}</BrandText>
                         <NameText>{bestData[1].perfumeName}</NameText>
                       </div>
-                      <LikeButton />
+                      <LikeButton
+                        likeCount={bestData[1].heartCnt}
+                        uuid={bestData[1].uuid}
+                      />
                     </div>
                   </div>
                   <PerfumeImage width={375} height={400} />
@@ -86,7 +92,10 @@ const Main = () => {
                         <BrandText>{bestData[2].perfumeBrandEng}</BrandText>
                         <NameText>{bestData[2].perfumeName}</NameText>
                       </div>
-                      <LikeButton />
+                      <LikeButton
+                        likeCount={bestData[2].heartCnt}
+                        uuid={bestData[2].uuid}
+                      />
                     </div>
                   </div>
                 </div>
@@ -114,7 +123,7 @@ const Main = () => {
                     <NameText>{item.perfumeName}</NameText>
                     <DescriptionText>{item.body}</DescriptionText>
                     <div className="like-button">
-                      <LikeButton />
+                      <LikeButton likeCount={item.heartCnt} uuid={item.uuid} />
                     </div>
                   </div>
                 ))}

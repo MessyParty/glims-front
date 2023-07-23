@@ -100,3 +100,11 @@ export const getPerfumeReview = async (pid: string): Promise<Review[]> => {
   );
   return data;
 };
+
+export const createHeart = async (uuid: string) => {
+  await api.post(`https://dev.glims.store/api/v1/reviews/${uuid}/heart`);
+};
+
+export const deleteHeart = async (uuid: string) => {
+  await api.delete(`https://dev.glims.store/api/v1/reviews/${uuid}/heart`);
+};
