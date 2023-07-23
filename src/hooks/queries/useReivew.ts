@@ -58,7 +58,7 @@ export const useBestReviews = (num: number) => {
 
 export const useCreateReview = () => {
   const queryClient = useQueryClient();
-  return useMutation(
+  const mutation = useMutation(
     (payload: ReveiwResponse) =>
       createReview({
         body: payload.body,
@@ -75,6 +75,8 @@ export const useCreateReview = () => {
       },
     },
   );
+
+  return mutation;
 };
 
 export const useUpdateReview = (id: string) => {
@@ -99,15 +101,21 @@ export const useUpdateReview = (id: string) => {
 };
 
 export const useCreateReviewPhoto = () => {
-  return useMutation(({ id, photo }: PhotoPayloadType) =>
-    createReviewPhoto(id, photo),
+  const queryClient = useQueryClient();
+  return useMutation(
+    ({ id, photo }: PhotoPayloadType) => createReviewPhoto(id, photo),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["review"]);
+      },
+    },
   );
 };
 
 export const useBestPerfumeReview = (id: string) => {
-  return useQuery(["bestPerfumeReview", id], () => getBestReviewByPerfume(id));
+  return useQuery(["review", id], () => getBestReviewByPerfume(id));
 };
 
 export const usePerfumeReviews = (id: string) => {
-  return useQuery(["perfumeReview", id], () => getPerfumeReview(id));
+  return useQuery(["review", id], () => getPerfumeReview(id));
 };

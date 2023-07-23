@@ -93,6 +93,8 @@ const SelectOptions = styled.ul<{ show: boolean }>`
   box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
   -webkit-box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
   -moz-box-shadow: 0px 5px 12px -2px rgba(0, 0, 0, 0.62);
+  z-index: 9;
+  max-width: 137px;
 `;
 
 const SelectOption = styled.li`

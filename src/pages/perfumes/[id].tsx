@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { getPerfume } from "@/apis/perfume";
@@ -42,17 +41,22 @@ const PerfumeDetailPage = () => {
   const [currentValue, setCurrentValue] =
     useState<SelectOptionValue>("HEARTS_COUNT");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
   const [isLogined, setLoginState] = useRecoilState(loginState);
+
+  const itemsPerPage = 5;
 
   const router = useRouter();
   const { id } = router.query;
+
   const { data, isSuccess } = usePerfume(id as string);
   const { data: bestReviewData, isSuccess: isSuccessBestReview } =
     useBestPerfumeReview(id as string);
-  const { data: reviewData, isSuccess: isSuccessReview } = usePerfumeReviews(
-    id as string
-  );
+  const {
+    data: reviewData,
+    isSuccess: isSuccessReview,
+    refetch: refetchReview,
+  } = usePerfumeReviews(id as string);
+
 
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
@@ -60,22 +64,21 @@ const PerfumeDetailPage = () => {
 
   const reviewModal = useModal(MODAL_KEYS.review);
   const loginRequiredModal = useModal(MODAL_KEYS.loginRequired);
-  const loginRequiredHandler = () => {
-    loginRequiredModal.openModal();
-  };
+
   const handleOptionChange = (option: SelectOptionValue) => {
     setSelectedOption(option);
   };
+
+  useEffect(() => {
+    refetchReview();
+  }, [refetchReview, reviewData]);
 
   return (
     <Container>
       {isSuccess && <PerfumeDetail data={data} />}
       <h1>BEST REVIEW</h1>
       {isSuccessBestReview && bestReviewData.length > 0 ? (
-        <Link
-          href={`/review/${bestReviewData[0].uuid}`}
-          key={bestReviewData[0].uuid}
-        >
+        <React.Fragment key={bestReviewData[0].uuid}>
           <ReviewCard
             title={bestReviewData[0].title}
             author={bestReviewData[0].nickname}
@@ -83,9 +86,9 @@ const PerfumeDetailPage = () => {
             score={bestReviewData[0].overallRatings}
             likeCount={bestReviewData[0].heartCnt}
             uuid={bestReviewData[0].uuid}
+            imgSrc={bestReviewData[0].photoUrls}
           />
-          <DecorationBar bottom={-4} right={0} />
-        </Link>
+        </React.Fragment>
       ) : (
         <p className="no-review-text">
           베스트 리뷰가 없습니다. 리뷰를 남겨주세요!
@@ -138,7 +141,7 @@ const PerfumeDetailPage = () => {
             />
           </div>
           {paginatedReviewData?.map((item) => (
-            <Link href={`/review/${item.uuid}`} key={item.uuid}>
+            <React.Fragment key={item.uuid}>
               <ListCard
                 likeCount={item.heartCnt}
                 title={item.title}
@@ -149,7 +152,7 @@ const PerfumeDetailPage = () => {
                 body={item.body}
                 imgSrc={item.photoUrls}
               />
-            </Link>
+            </React.Fragment>
           ))}
           <div className="pagination-container">
             <PaginationBar

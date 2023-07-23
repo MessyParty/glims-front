@@ -65,7 +65,6 @@ const PerfumeDetail = ({ data }: PerfumeDetailProps) => {
       </PerfumeDescription>
       <PerfumeInfo>
         <DecorationBar bottom={-4} left={0} />
-
         <div className="perfume-note-box">
           <h1 className="title">Note</h1>
           <div className="perfume-note">
@@ -268,21 +267,4 @@ const PerfumeInfo = styled.div`
       }
     }
   }
-`;
-
-const TopDecorationBar = styled.div`
-  position: absolute;
-  width: 12.5rem;
-  height: 0.8125rem;
-  background-color: #000;
-  top: -5px;
-  left: 0;
-`;
-const BottomDecorationBar = styled.div`
-  position: absolute;
-  width: 12.5rem;
-  height: 0.8125rem;
-  background-color: #000;
-  bottom: -267px;
-  right: 256px;
 `;
