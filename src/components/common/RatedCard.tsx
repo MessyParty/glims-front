@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
 import { CardContent, CardMedia, Card, CardProps } from "@mui/material";
-import Link from "next/link";
 
 interface RatedCardProps extends CardProps {
   brandName: string;
   perfumeName: string;
   score: number;
-  imgSrc?: string;
+  imgSrc: string;
   uuid?: string;
 }
 
@@ -15,28 +14,25 @@ const RatedCard = ({
   perfumeName,
   score,
   imgSrc,
-  uuid,
 }: RatedCardProps) => {
   return (
     <Container>
       <Wrapper>
-        <Link href={`/perfumes/${uuid}`}>
-          <div className="perfume-img">
-            <CardMedia
-              component="img"
-              image={imgSrc}
-              alt="perfume image"
-              style={{ maxHeight: "25rem", objectFit: "contain" }}
-            />
+        <div className="perfume-img">
+          <CardMedia
+            component="img"
+            image={imgSrc}
+            alt="perfume image"
+            style={{ maxHeight: "25rem", objectFit: "contain" }}
+          />
+        </div>
+        <PerfumeBox>
+          <div className="info-text">
+            <p>{brandName}</p>
+            <p>{perfumeName}</p>
           </div>
-          <PerfumeBox>
-            <div className="info-text">
-              <p>{brandName}</p>
-              <p>{perfumeName}</p>
-            </div>
-            <div className="score-text">{score.toFixed(1)}</div>
-          </PerfumeBox>
-        </Link>
+          <div className="score-text">{score.toFixed(1)}</div>
+        </PerfumeBox>
       </Wrapper>
     </Container>
   );
@@ -45,7 +41,7 @@ const RatedCard = ({
 export default RatedCard;
 
 const Container = styled(Card)`
-  max-width: 781px;
+  max-width: 792px;
   min-width: 384px;
   height: 540px;
   border-radius: 0;

@@ -6,6 +6,7 @@ import useObserver from "@/hooks/useObserver";
 import TitleBox from "@/components/common/TitleBox";
 import RatedCard from "@/components/common/RatedCard";
 import { Perfume } from "@/apis/interfaces/perfume.interfece";
+import Link from "next/link";
 
 export default function BrandDetail({
   brandName,
@@ -28,7 +29,7 @@ export default function BrandDetail({
         data?.pages.map((page, i) => (
           <BrandBox key={i}>
             {page.content?.map((item: Perfume, index: number) => (
-              <React.Fragment key={index}>
+              <Link key={index} href={`/perfumes/${item.uuid}`}>
                 <RatedCard
                   brandName={item.brandName}
                   perfumeName={item.perfumeName}
@@ -36,7 +37,7 @@ export default function BrandDetail({
                   imgSrc={item.photos[0].url}
                   uuid={item.uuid}
                 />
-              </React.Fragment>
+              </Link>
             ))}
           </BrandBox>
         ))}

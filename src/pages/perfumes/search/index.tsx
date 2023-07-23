@@ -7,6 +7,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import TitleBox from "@/components/common/TitleBox";
 import SelectBox from "@/components/common/SelectBox";
+import Link from "next/link";
 
 type SelectOptionValue = "DATE" | "HEARTS_COUNT";
 const options: { value: SelectOptionValue; label: string }[] = [
@@ -57,14 +58,15 @@ const Search = () => {
         </div>
         <div className="perfume-container">
           {results.map((result) => (
-            <RatedCard
-              key={result.uuid}
-              brandName={result.brandName}
-              perfumeName={result.perfumeName}
-              imgSrc={result.photos[0].url}
-              score={result.overallRatings}
-              uuid={result.uuid}
-            />
+            <Link key={result.uuid} href={`/perfumes/${result.uuid}`}>
+              <RatedCard
+                brandName={result.brandName}
+                perfumeName={result.perfumeName}
+                imgSrc={result.photos[0].url}
+                score={result.overallRatings}
+                uuid={result.uuid}
+              />
+            </Link>
           ))}
         </div>
       </Container>

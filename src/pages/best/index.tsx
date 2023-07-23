@@ -6,9 +6,8 @@ import RatedCard from "@/components/common/RatedCard";
 import useBestPerfume from "@/hooks/queries/useBestPerfume";
 import TitleBox from "@/components/common/TitleBox";
 import styled from "@emotion/styled";
-
-const DEFAULT_IMG =
-  "https://www.trndf.com/news/data/20190709/p1065591406141189_714_thum.jpg";
+import Link from "next/link";
+import DEFAULT_IMG from "@root/public/perfume-default.svg";
 
 export default function BestPage() {
   const { data: bestData } = useBestPerfume(7);
@@ -20,7 +19,7 @@ export default function BestPage() {
         {bestData
           ? bestData.map(
               ({ brandName, perfumeName, overallRatings, photos, uuid }) => (
-                <React.Fragment key={uuid}>
+                <Link key={uuid} href={`/perfumes/${uuid}`}>
                   <RatedCard
                     brandName={brandName}
                     perfumeName={perfumeName}
@@ -28,7 +27,7 @@ export default function BestPage() {
                     imgSrc={photos[0].url ?? DEFAULT_IMG}
                     uuid={uuid}
                   />
-                </React.Fragment>
+                </Link>
               ),
             )
           : null}
@@ -58,10 +57,10 @@ const BrandBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
-  & div:first-of-type {
+  & a:first-of-type {
     grid-column: span 2;
   }
-  & div:last-child {
+  & a:last-child {
     grid-column: span 2;
   }
   margin-bottom: 5rem;
