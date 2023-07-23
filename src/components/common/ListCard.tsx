@@ -39,7 +39,9 @@ const ListCard = ({
         <Link href={`/review/${uuid}`}>
           <Rating score={score} fontSize="70px" />
           <p className="title">{title}</p>
-          <p className="body">{body?.slice(0, 120) + "..."}</p>
+          <p className="body">
+            {body && body.length > 120 ? body?.slice(0, 120) + "..." : body}
+          </p>
           <div className="meta">
             <span>{date}</span>
             <span>by {nickname}</span>

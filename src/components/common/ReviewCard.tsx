@@ -12,7 +12,7 @@ interface ReviewCardProps {
   description?: string;
   imgSrc?: string[];
   likeCount: number;
-  uuid: string;
+  uuid?: string;
 }
 
 const ReviewCard = ({
@@ -56,7 +56,11 @@ const ReviewCard = ({
             <Rating score={score} fontSize="68px" />
           </div>
           <div className="description">
-            <p>{description?.slice(0, 120) + "..."}</p>
+            <p>
+              {description && description.length > 120
+                ? description?.slice(0, 120) + "..."
+                : description}
+            </p>
           </div>
         </ContentWrapper>
       </Link>
