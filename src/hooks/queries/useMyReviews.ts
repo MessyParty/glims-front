@@ -6,6 +6,7 @@ type UseReviewsProps = {
   limit?: number;
   orderStandard?: "DATE" | "HEARTS_COUNT";
   sortType?: "DESC" | "ASC";
+  isLoggedIn: boolean;
 };
 
 const useMyReviews = ({
@@ -13,10 +14,12 @@ const useMyReviews = ({
   limit = 1000,
   orderStandard = "HEARTS_COUNT",
   sortType = "DESC",
+  isLoggedIn,
 }: UseReviewsProps) => {
   return useQuery(
     ["review", "my", offset, limit, orderStandard, sortType],
-    () => getMyReview({ offset, limit, orderStandard, sortType }),
+    () =>
+      isLoggedIn ? getMyReview({ offset, limit, orderStandard, sortType }) : [],
   );
 };
 
