@@ -24,7 +24,21 @@ type PhotoPayloadType = {
 };
 
 export const useReview = (uuid: string) => {
-  return useQuery(["review", uuid], () => getReview(uuid));
+  const checkReviewExistence = async () => {
+    try {
+      await getReview(uuid);
+      return true;
+    } catch (error) {
+      console.warn = () => {};
+      return false;
+    }
+  };
+
+  const reviewExists = useQuery(["reviewExists", uuid], checkReviewExistence);
+
+  return useQuery(["review", uuid], () => getReview(uuid), {
+    enabled: reviewExists.data === true,
+  });
 };
 
 export const useAllReview = ({
