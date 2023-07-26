@@ -1,4 +1,5 @@
 export type Review = {
+  perfumeBrand: string;
   body: string;
   createdAt: string;
   heartCnt: number;
