@@ -57,7 +57,7 @@ const MyPage = () => {
           <>
             <div className="reviews">
               {paginatedReviewData?.map((item) => (
-                <Link href={`/review/${item.uuid}`}>
+                <Link href={`/review/${item.uuid}`} key={item.uuid}>
                   <RatedCard
                     brandName={item.perfumeBrandEng}
                     perfumeName={item.perfumeName}

@@ -6,7 +6,7 @@ const cookies = new Cookies();
 export const setCookie = (
   name: string,
   value: string,
-  option?: CookieSetOptions
+  option?: CookieSetOptions,
 ) => {
   return cookies.set(name, value, { ...option });
 };
