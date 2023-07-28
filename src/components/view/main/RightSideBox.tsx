@@ -9,18 +9,23 @@ import { MODAL_KEYS } from "@/constants/modalKeys";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 import LikeButton from "@/components/common/LikeButton";
-import React from "react";
-import PerfumeImage from "@/components/common/PerfumeImage";
+import React, { useState } from "react";
+import Link from "next/link";
 
 const RightSideBox = () => {
   const { data: profileData } = useProfile();
-  const { data: myReviewData } = useMyReviews({});
-  const { data: randomPerfumeData } = useRandomPerfume(2);
   const isLoggedIn = useRecoilValue(loginState);
+  const { data: myReviewData } = useMyReviews({ limit: 3, isLoggedIn });
+  const { data: randomPerfumeData } = useRandomPerfume(2);
   const searchModal = useModal(MODAL_KEYS.search);
 
   const searchHandler = () => {
     searchModal.openModal();
+  };
+  const [imageErrorStatus, setImageErrorStatus] = useState<number>();
+
+  const handleImageError = (statusCode: number) => {
+    setImageErrorStatus(statusCode);
   };
 
   return (
@@ -39,14 +44,18 @@ const RightSideBox = () => {
               My Best Review
             </HighlightText>
             {myReviewData?.map((item) => (
-              <div className="my-review-detail">
+              <Link
+                href={`/review/${item.uuid}`}
+                className="my-review-detail"
+                key={item.uuid}
+              >
                 <BrandText>{item.perfumeBrandEng}</BrandText>
                 <NameText>{item.perfumeName}</NameText>
                 <DescriptionText>{item.body}</DescriptionText>
                 <div className="like-button">
                   <LikeButton likeCount={item.heartCnt} uuid={item.uuid} />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <ReviewCreateButton variant="text" onClick={searchHandler}>
@@ -57,21 +66,44 @@ const RightSideBox = () => {
         <>
           <HighlightText>
             향수를 선택하는 새롭고 스마트한 구매 여정,
+            <br />
+            오늘 시작해보세요!
           </HighlightText>
-          <HighlightText>오늘 시작해보세요!</HighlightText>
           <div className="random-perfumes">
             <HighlightText>Today's Perfumes</HighlightText>
             {randomPerfumeData?.map((item) => (
-              <div className="small-rated-card">
-                <PerfumeImage width={400} height={280} />
+              <Link
+                href={`/perfumes/${item.uuid}`}
+                className="small-rated-card"
+                key={item.uuid}
+              >
+                <div className="perfume-img-box">
+                  <img
+                    width={400}
+                    height={280}
+                    src={
+                      imageErrorStatus === 401 ||
+                      imageErrorStatus === 400 ||
+                      imageErrorStatus === 404 ||
+                      imageErrorStatus === 200 ||
+                      imageErrorStatus === 500
+                        ? "/perfume-default.svg"
+                        : item.photos[0].url
+                    }
+                    alt={item.perfumeName}
+                    onError={() => handleImageError(400)}
+                  />
+                </div>
                 <div className="card-detail">
                   <div>
                     <BrandText>{item.brandName}</BrandText>
                     <NameText>{item.perfumeName}</NameText>
                   </div>
-                  <div className="rating-box">{item.overallRatings}</div>
+                  <div className="rating-box">
+                    {item.overallRatings.toFixed(1)}
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </>
@@ -103,10 +135,20 @@ const Container = styled.div`
   & > .random-perfumes {
     margin-top: 308px;
     padding: 0;
+    display: grid;
+    grid-template-rows: repeat(3, minmax(1rem, auto));
+    grid-row-gap: 1rem;
 
     & > .small-rated-card {
       text-align: center;
-      border-bottom: 1px solid;
+      & .perfume-img-box {
+        width: 400px;
+        height: 280px;
+
+        & > img {
+          object-fit: contain;
+        }
+      }
 
       &:first-of-type {
         margin-bottom: 30px;
@@ -116,6 +158,7 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-bottom: 1px solid;
 
         & > .rating-box {
           padding-top: 25px;

@@ -69,16 +69,10 @@ const PerfumeBox = styled.div`
   align-items: center;
   border-bottom: 1px solid #000;
   margin: 2rem 1.5rem 0;
-
+  & .info-text {
+    line-height: 1.7;
+  }
   & .perfume-info {
-    &:first-of-type {
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    &:nth-of-type(2) {
-      font-size: 18px;
-    }
   }
 
   & .score-text {

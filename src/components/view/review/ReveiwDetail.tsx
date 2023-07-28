@@ -9,10 +9,12 @@ import QuoteRight from "@/components/common/CustomIcon/QuoteRight";
 import ReviewDetailRating from "./ReviewDetailRating";
 import PerfumeImage from "@/components/common/PerfumeImage";
 import { useDeleteReview, useReview } from "@/hooks/queries/useReivew";
-import { Review } from "@/apis/interfaces/review.interface";
 import Modal from "@/components/common/Modal";
 import ReviewModal from "./ReveiwModal";
 import useFormatDate from "@/hooks/useFormatDate";
+import { useRecoilValue } from "recoil";
+import { loginState } from "@/recoil/login";
+import useProfile from "@/hooks/queries/useProfile";
 
 interface ReviewDetailProps {
   title: string;
@@ -46,7 +48,7 @@ const ReviewDetail = ({
   id,
   ...props
 }: ReviewDetailProps) => {
-  const [reviewData, setReviewData] = useState<Review>({
+  const [reviewData, setReviewData] = useState({
     perfumeBrandEng: "",
     body: "",
     createdAt: "",
@@ -75,7 +77,7 @@ const ReviewDetail = ({
     router.back();
   };
 
-  const handleUpdateReview = (data: React.SetStateAction<Review>) => {
+  const handleUpdateReview = (data: any) => {
     reviewModal.openModal();
     setReviewData(data);
   };
@@ -85,6 +87,8 @@ const ReviewDetail = ({
   };
 
   const formattedDate = useFormatDate(createAt);
+  const isLoggedIn = useRecoilValue(loginState);
+  const { data: myProfile } = useProfile();
 
   return (
     <>
@@ -118,28 +122,33 @@ const ReviewDetail = ({
           <ReviewDescription>
             <p>{description}</p>
           </ReviewDescription>
-          <div className="button-box">
-            <Button variant="outlined" onClick={() => handleUpdateReview(data)}>
-              수정하기
-            </Button>
-            <Modal
-              modalKey={MODAL_KEYS.review}
-              open={reviewModal.isOpen}
-              modalContent={
-                <ReviewModal
-                  brandName={data.perfumeBrand}
-                  perfumeUuid={data.uuid}
-                  perfumeName={data.perfumeName}
-                  reviewData={reviewData}
-                />
-              }
-              fullWidth
-              maxWidth="lg"
-            />
-            <Button variant="outlined" onClick={() => handleDelete(id)}>
-              삭제하기
-            </Button>
-          </div>
+          {isLoggedIn && myProfile?.nickname === author ? (
+            <div className="button-box">
+              <Button
+                variant="outlined"
+                onClick={() => handleUpdateReview(data)}
+              >
+                수정하기
+              </Button>
+              <Modal
+                modalKey={MODAL_KEYS.review}
+                open={reviewModal.isOpen}
+                modalContent={
+                  <ReviewModal
+                    brandName={data.perfumeBrand}
+                    perfumeUuid={data.uuid}
+                    perfumeName={data.perfumeName}
+                    reviewData={reviewData}
+                  />
+                }
+                fullWidth
+                maxWidth="lg"
+              />
+              <Button variant="outlined" onClick={() => handleDelete(id)}>
+                삭제하기
+              </Button>
+            </div>
+          ) : null}
         </Container>
       )}
       <ListButton>
@@ -158,6 +167,7 @@ const ReviewTopBox = styled.div`
   margin: 24px 0;
   & .perfume-text {
     font-size: 1.875rem;
+    margin-bottom: 0.5rem;
   }
   & .brand-text {
     font-size: 1.4375rem;

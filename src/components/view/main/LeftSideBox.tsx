@@ -5,6 +5,7 @@ import DecorationBar from "@/components/common/DecorationBar";
 import PerfumeImage from "@/components/common/PerfumeImage";
 import LikeButton from "@/components/common/LikeButton";
 import React from "react";
+import Link from "next/link";
 
 const LeftSideBox = () => {
   const { data: bestData, isSuccess } = useBestReviews(3);
@@ -17,7 +18,13 @@ const LeftSideBox = () => {
           <div className="best-review">
             <DecorationBar top={-4} left={-1} />
             <div className="review-box">
-              <PerfumeImage width={375} height={400} />
+              <Link href={`/review/${bestData && bestData[0].uuid}`}>
+                <PerfumeImage
+                  width={375}
+                  height={400}
+                  imgSrc={bestData && bestData[0].photoUrls}
+                />
+              </Link>
               <div className="review-detail">
                 <div>
                   <HighlightText>{bestData && bestData[0].title}</HighlightText>
@@ -63,13 +70,25 @@ const LeftSideBox = () => {
                   />
                 </div>
               </div>
-              <PerfumeImage width={375} height={400} />
+              <Link href={`/review/${bestData && bestData[1].uuid}`}>
+                <PerfumeImage
+                  width={375}
+                  height={400}
+                  imgSrc={bestData && bestData[1].photoUrls}
+                />
+              </Link>
             </div>
           </div>
           <div className="best-review">
             <DecorationBar top={-4} left={-1} />
             <div className="review-box">
-              <PerfumeImage width={375} height={400} />
+              <Link href={`/review/${bestData && bestData[2].uuid}`}>
+                <PerfumeImage
+                  width={375}
+                  height={400}
+                  imgSrc={bestData && bestData[2].photoUrls}
+                />
+              </Link>
               <div className="review-detail">
                 <div>
                   <HighlightText>{bestData && bestData[2].title}</HighlightText>

@@ -1,3 +1,8 @@
+import React, { useState } from "react";
+import Link from "next/link";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
+import { useRecoilValue } from "recoil";
 import useProfile from "@/hooks/queries/useProfile";
 import useMyReviews from "@/hooks/queries/useMyReviews";
 import ReviewCard from "@/components/common/ReviewCard";
@@ -5,17 +10,15 @@ import useModal from "@/hooks/useModal";
 import { MODAL_KEYS } from "@/constants/modalKeys";
 import Modal from "@/components/common/Modal";
 import NicknameUpdateModalContent from "@/components/view/mypage/NicknameUpdateModalContent";
-import styled from "@emotion/styled";
-import { Button } from "@mui/material";
 import RatedCard from "@/components/common/RatedCard";
-import React, { useState } from "react";
 import PaginationBar from "@/components/common/PaginationBar";
-import Link from "next/link";
+import { loginState } from "@/recoil/login";
 
 const MyPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const isLoggedIn = useRecoilValue(loginState);
   const { data: profileData } = useProfile();
-  const { data: reviewData, isSuccess } = useMyReviews({});
+  const { data: reviewData, isSuccess } = useMyReviews({ isLoggedIn });
   const nicknameUpdateModal = useModal(MODAL_KEYS.nicknameUpdate);
 
   const itemsPerPage = 6;
@@ -54,7 +57,7 @@ const MyPage = () => {
           <>
             <div className="reviews">
               {paginatedReviewData?.map((item) => (
-                <Link href={`/review/${item.uuid}`}>
+                <Link href={`/review/${item.uuid}`} key={item.uuid}>
                   <RatedCard
                     brandName={item.perfumeBrandEng}
                     perfumeName={item.perfumeName}
