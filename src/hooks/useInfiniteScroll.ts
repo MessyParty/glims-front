@@ -7,7 +7,7 @@ const useInfiniteScroll = (brandName: string) => {
     ["searchPerfumesInfinite", brandName],
     ({ pageParam = 1 }) => searchPerfumes(brandName, pageParam),
     {
-      getNextPageParam: (lastPage, pages) => lastPage.nextPage,
+      getNextPageParam: (lastPage, pages) => lastPage,
     },
   );
 };
