@@ -5,7 +5,7 @@ export const getSearch = async (
   option: string,
   keyword: string,
 ): Promise<Search["content"]> => {
-  const { data } = await api.get<Search>("/api/v1/perfumes/search", {
+  const { data } = await api.get<Search>("api/v1/perfumes/search", {
     params: {
       [option]: keyword,
     },
