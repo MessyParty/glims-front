@@ -1,14 +1,14 @@
-import axios from "axios";
 import { Perfume } from "./interfaces/perfume.interfece";
+import api from ".";
 
 export const getPerfume = async (rid: string): Promise<Perfume> => {
-  const { data } = await axios.get<Perfume>(`/api/v1/perfumes/${rid}`);
+  const { data } = await api.get<Perfume>(`/api/v1/perfumes/${rid}`);
 
   return data;
 };
 
 export const getBestPerfume = async (num: number): Promise<Perfume[]> => {
-  const { data } = await axios.get<Perfume[]>("/api/v1/perfumes/best", {
+  const { data } = await api.get<Perfume[]>("/api/v1/perfumes/best", {
     params: {
       amount: num,
     },
@@ -17,7 +17,7 @@ export const getBestPerfume = async (num: number): Promise<Perfume[]> => {
 };
 
 export const getRandomPerfume = async (num: number): Promise<Perfume[]> => {
-  const { data } = await axios.get<Perfume[]>("/api/v1/perfumes/random", {
+  const { data } = await api.get<Perfume[]>("/api/v1/perfumes/random", {
     params: {
       amount: num,
     },
@@ -29,7 +29,7 @@ export const searchPerfumes = async (
   brand: string,
   pageParam?: number,
 ): Promise<Perfume> => {
-  const { data } = await axios.get<Perfume>("/api/v1/perfumes", {
+  const { data } = await api.get<Perfume>("/api/v1/perfumes", {
     params: {
       brand: brand,
     },

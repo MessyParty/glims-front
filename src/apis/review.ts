@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   ReveiwResponse,
   Review,
@@ -10,7 +9,7 @@ import api from ".";
 export const getAllReview = async (
   params: ReviewParameterType,
 ): Promise<ReviewListType["content"]> => {
-  const { data } = await axios.get<ReviewListType>(`/api/v1/reviews`, {
+  const { data } = await api.get<ReviewListType>(`/api/v1/reviews`, {
     params,
   });
   return data.content;
