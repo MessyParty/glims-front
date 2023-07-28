@@ -2,7 +2,7 @@ import { LoginResponse } from "@/apis/interfaces/auth.interface";
 import api from "@/apis/index";
 
 export const getLoginTokens = async (code: string): Promise<LoginResponse> => {
-  const { data: stateData } = await api.get("/api/v1/session/state", {
+  const { data: stateData } = await api.get("api/v1/session/state", {
     params: { provider: "kakao" },
     withCredentials: true,
   });
@@ -14,5 +14,5 @@ export const getLoginTokens = async (code: string): Promise<LoginResponse> => {
 };
 
 export const logout = async () => {
-  return await api.post("/api/v1/logout");
+  return await api.post("api/v1/logout");
 };
