@@ -231,6 +231,7 @@ const ReviewDescription = styled.div`
   padding: 1.7rem 0;
   margin: 3rem auto;
   font-size: 1.25rem;
+  line-height: 1.5;
 `;
 
 const ListButton = styled.div`
