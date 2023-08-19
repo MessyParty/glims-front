@@ -4,6 +4,26 @@
 ## 기술 스택
 Next.js, React, Typescript, Tanstack Query, Emotion, Recoil
 
+## 로컬 실행 방법
+1. 프로젝트 클론
+```
+git clone git@github.com:MessyParty/glims-front.git
+```
+2. 의존성 설치
+```
+npm install
+```
+3. 환경 설정 파일 추가 (.env.local)
+```
+NEXT_PUBLIC_BASE_URL=서버주소
+NEXT_PUBLIC_OAUTH_URL=서버주소
+RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=false
+```
+4. 프로젝트 실행
+```
+npm run dev
+```
+
 ## 구현 기능
 - 카카오 로그인을 통한 인증 기능 구현.
 - 향수 목록에 대한 무한 스크롤 기능 구현.
