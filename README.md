@@ -1,4 +1,4 @@
-# Glims 🫧
+# 🫧 Glims
 
 자신이 경험한 향수에 대해 리뷰를 남기고, 공유하고, 또 공유받을 수 있는 향수 리뷰 플랫폼 웹 사이트입니다.
 
@@ -11,7 +11,7 @@
 - Emotion
 - Recoil
 
-## 🖥️ 로컬 실행 방법
+## 🕹️ 로컬 실행 방법
 
 1. 프로젝트 클론
 
@@ -50,26 +50,55 @@ npm run dev
 - useState, useEffect, useRef를 활용하여 특정 위치 스크롤 기능
 - MUI를 활용하여 효율적인 공통 컴포넌트 관리
 
-## 미리보기
+## 🖥️ 미리보기
 
-메인 페이지, About, 베스트, 리뷰, 마이 페이지까지 총 5가지의 핵심 플로우로 구성되어 있습니다.
+메인 페이지, About, 베스트, 브랜드, 리뷰, 마이 페이지까지 총 6가지의 핵심 플로우로 구성되어 있습니다.
 
 ### Main
 
 - 미로그인 상태
+![image](https://github.com/MessyParty/glims-front/assets/50559373/1613e260-2ee1-40dc-93f4-6c9be8082446)
+
+- 로그인 모달
+![image](https://github.com/MessyParty/glims-front/assets/50559373/c101e95f-85c1-46bc-b752-881c17f1199d)
 
 - 로그인 상태
+![Group 74](https://github.com/MessyParty/glims-front/assets/50559373/a64060f5-a190-4339-903b-92dfa41153f1)
+
 
 ### About
+![image](https://github.com/MessyParty/glims-front/assets/50559373/b209e2be-d650-402d-b08b-4835c07bcb73)
 
 ### Best
 
-- 베스트 브랜드
+- 베스트 향수
+![image](https://github.com/MessyParty/glims-front/assets/50559373/e7492bdd-49ea-420a-a3f6-22e1ab4b6e81)
 
-- 브랜드별 향수 데이터
 
+### Brand
+
+- 브랜드
+![Aug-20-2023 18-46-47](https://github.com/MessyParty/glims-front/assets/50559373/869987e0-fee5-4244-a142-0e09bae5a9f0)
+
+- 브랜드별 향수 목록
+![Group 75](https://github.com/MessyParty/glims-front/assets/50559373/ddf9d5d4-a549-45a1-b2ee-3a568393f79f)
+
+  
 - 향수 상세 페이지
+![image](https://github.com/MessyParty/glims-front/assets/50559373/08b1e61a-de6d-4403-9d23-ca450a5de742)
 
 ### Review
+![image](https://github.com/MessyParty/glims-front/assets/50559373/92629f7a-583c-48fb-a81a-821f879e6757)
+
+- 리뷰 상세 페이지
+![image](https://github.com/MessyParty/glims-front/assets/50559373/538ad299-635c-43df-8e1a-1a3f7871c9a0)
+
 
 ### My Page
+![image](https://github.com/MessyParty/glims-front/assets/50559373/f43fedc1-36a5-442e-abb7-795584d5e530)
+
+### 검색
+![image](https://github.com/MessyParty/glims-front/assets/50559373/cfd1dd96-76ac-4cea-b869-51a61c6098fb)
+![image](https://github.com/MessyParty/glims-front/assets/50559373/d4cb9760-d15c-47cc-9ace-322b455c736f)
+
+
